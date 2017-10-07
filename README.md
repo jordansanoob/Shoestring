@@ -9,3 +9,10 @@ CSC 455 Project
     
     Upcoming: 
       - adding test data to cart and purchased
+      
+10.07.2017: 
+  - Jordan: 
+    - added test data to cart and purchased
+    - reformatted purchased and cart tables to allow for auto incrementing values
+      -changed the primary keys on both of these since there would be conflicts of multiple entries if cartId was the p-key.
+  
