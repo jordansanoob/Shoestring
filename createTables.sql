@@ -1,11 +1,9 @@
-use jha2135;
-
-drop table IF EXISTS users;
-drop table if exists department;
-drop table if exists brand;
-drop table IF EXISTS inventory;
-drop table if exists cart;
-drop table if exists purchased;
+drop table purchased;
+drop table cart;
+drop table inventory;
+drop table users;
+drop table department;
+drop table brand;
 
 CREATE TABLE users
 (
@@ -55,12 +53,11 @@ ENGINE=INNODB;
 
 CREATE TABLE cart
 (
-
-	cartId INT NOT NULL,
+	entryNumber INT NOT NULL AUTO_INCREMENT,
 	quantity INT NOT NULL,
 	userId INT NOT NULL,
 	itemId varchar(7) NOT NULL,
-	PRIMARY KEY (cartId),
+	PRIMARY KEY (entryNumber),
 	FOREIGN KEY (userId) REFERENCES users(userId),
 	FOREIGN KEY (itemId) REFERENCES inventory(itemId)
 )
@@ -68,12 +65,12 @@ ENGINE=INNODB;
 
 CREATE TABLE purchased
 (
-	purchaseId INT NOT NULL,
+	purchaseId INT NOT NULL AUTO_INCREMENT,
 	userId INT NOT NULL,
 	itemId varchar(7) NOT NULL,
 	quantity INT NOT NULL,
-	purchaseDate date NOT NULL,
-	deliveryDate date NOT NULL,
+	purchaseDate varchar(10) NOT NULL,
+	deliveryDate varchar(10) NOT NULL,
 	PRIMARY KEY (purchaseId),
 	FOREIGN KEY (userId) REFERENCES users(userId),
 	FOREIGN KEY (itemId) REFERENCES inventory(itemId)
