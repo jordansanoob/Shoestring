@@ -29,3 +29,20 @@ FROM cart,
      inventory
 WHERE cart.itemId = inventory.itemId
   AND userId = 2000;
+
+/* Update itemId in cart if inventory price changes.
+   Might be easier to use ON UPDATE CASCADE */
+
+delimiter //
+
+CREATE TRIGGER cartItemIdUpdate AFTER UPDATE ON inventory
+FOR EACH ROW
+	BEGIN
+		IF OLD.itemId <> NEW.itemId THEN
+			UPDATE cart
+			SET cart.itemId = NEW.itemId;
+		END IF;
+	END;
+//
+
+delimiter ;
