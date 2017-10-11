@@ -46,3 +46,29 @@ FOR EACH ROW
 //
 
 delimiter ;
+
+/* Find products under a certain price and from a certain brand. */
+
+SELECT itemname, 
+       gender, 
+       inventory.price 
+FROM   inventory 
+WHERE  price < 20 
+       AND brandid = (SELECT brandid 
+                      FROM   brand 
+                      WHERE  brandname = 'Adidas');
+
+/* Find out how much each user has spent at Shoestring. */
+
+SELECT t.useremail, 
+       Sum(totalp) AS amountSpent 
+FROM   (SELECT u.useremail, 
+               i.itemname, 
+               p.quantity, 
+               p.quantity * price AS totalP 
+        FROM   purchased p, 
+               users u, 
+               inventory i 
+        WHERE  p.userid = u.userid 
+               AND i.itemid = p.itemid) AS t 
+GROUP  BY useremail; 
