@@ -72,3 +72,27 @@ FROM   (SELECT u.useremail,
         WHERE  p.userid = u.userid 
                AND i.itemid = p.itemid) AS t 
 GROUP  BY useremail; 
+
+/* Order brands by most popular. */	 
+	 
+SELECT brandId,
+       sum(quantity) AS amountSold
+FROM purchased,
+     inventory
+WHERE purchased.itemId = inventory.itemId
+GROUP BY brandId
+ORDER BY amountSold DESC;
+
+/* Order emails of users who have purchased products, and how many products they've purchased. */	 
+	 
+SELECT userEmail, sum(quantity) AS amountPurchased
+FROM users u, purchased p
+WHERE p.UserId = u.UserId 
+GROUP BY userEmail
+ORDER BY quantity;
+
+/* Total profits */
+
+SELECT sum(quantity * price) AS profit
+FROM inventory i, purchased p 
+WHERE i.itemId = p.itemId;
