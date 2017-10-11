@@ -91,6 +91,15 @@ WHERE p.UserId = u.UserId
 GROUP BY userEmail
 ORDER BY quantity;
 
+/* Order departments by sales. */
+
+SELECT departmentName, d.departmentId, sum(quantity) AS amountSold 
+FROM department d, inventory i, purchased p 
+WHERE p.itemId = i.itemId 
+AND i.departmentId = d.departmentId
+GROUP BY d.departmentName 
+ORDER BY sum(quantity) DESC;
+
 /* Total profits */
 
 SELECT sum(quantity * price) AS profit
