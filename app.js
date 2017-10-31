@@ -31,16 +31,15 @@ app.get('/', function (req, res) {
         }
     ]
     res.render('shopping', {
-        name: 'Shoes',
+        name: 'Inventory',
         inventory: inventory
     });
 });
 
 //Admin page
-app.get('/inventory/add', function (res, req) {
+app.get('/admin', function (req, res) {
     res.render('admin', {
-        admin: 'Jordan',
-        friend: 'Morgan'
+        admin: 'Jordan'
     });
 });
 
