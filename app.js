@@ -36,6 +36,11 @@ app.get('/', function (req, res) {
     });
 });
 
+//Register page
+app.get('/register', function(req, res) {
+    res.render('register');
+});
+
 //Admin page
 app.get('/inventory/add', function (res, req) {
     res.render('admin', {
