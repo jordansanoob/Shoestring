@@ -86,6 +86,11 @@ app.get('/register', function(req, res) {
     res.render('register');
 });
 
+//Login page
+app.get('/login', function(req, res) {
+    res.render('userLogin');
+});
+
 //Admin page
 app.get('/admin', function (req, res) {
     res.render('admin', {
