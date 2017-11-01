@@ -1,6 +1,10 @@
 extends layout
 block content
-    h1 #{name}
-    ul
+    h1 Shop
+    
+    div.container-fluid.inventory
         each item, i in inventory
-            li= item.name
+            div.inventory-item
+                h2= item.name
+                p= item.brand
+                p= "$" + item.price
