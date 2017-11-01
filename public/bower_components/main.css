@@ -1,0 +1,24 @@
+body{
+    color:black;
+}
+
+.inventory{
+    height: 100%;
+}
+
+.inventory-item{
+    position: relative;
+    display: inline-block;
+    transition: all .4s;
+    text-align: center;
+    height: 50%;
+    width: 25%;
+    padding: 5px;
+    margin: 5px;
+    background-color: grey;
+    color: white;
+}
+
+.inventory-item:hover{
+    transform: scale(1.02);
+}
