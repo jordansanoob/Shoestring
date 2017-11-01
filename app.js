@@ -17,17 +17,62 @@ app.get('/', function (req, res) {
         {
             name: "Tee-Shirt",
             brand: "Nike",
-            price: 10
+            price: (Math.floor(Math.random() * (30 - 10)) + 10)
         },
         {
             name: "Hat",
             brand: "Adidas",
-            price: 20
+            price: (Math.floor(Math.random() * (30 - 10)) + 10)
         },
         {
             name: "Shorts",
             brand: "Reebok",
-            price: 15
+            price: (Math.floor(Math.random() * (30 - 10)) + 10)
+        },
+        {
+            name: "Pants",
+            brand: "Under Armour",
+            price: (Math.floor(Math.random() * (30 - 10)) + 10)
+        },
+        {
+            name: "Jacket",
+            brand: "Adidas",
+            price: (Math.floor(Math.random() * (30 - 10)) + 10)
+        },
+        {
+            name: "Watch",
+            brand: "Champion",
+            price: (Math.floor(Math.random() * (30 - 10)) + 10)
+        },
+        {
+            name: "Socks",
+            brand: "Nike",
+            price: (Math.floor(Math.random() * (30 - 10)) + 10)
+        },
+        {
+            name: "Belt",
+            brand: "Dickies",
+            price: (Math.floor(Math.random() * (30 - 10)) + 10)
+        },
+        {
+            name: "Scarf",
+            brand: "N/A",
+            price: (Math.floor(Math.random() * (30 - 10)) + 10)
+        },
+        {
+            name: "Jeans",
+            brand: "Levi",
+            price: (Math.floor(Math.random() * (30 - 10)) + 10)
+        },
+        {
+            name: "Headband",
+            brand: "Nike",
+            price: (Math.floor(Math.random() * (30 - 10)) + 10)
+        },
+        {
+            name: "Glasses",
+            brand: "Oakley",
+            price: (Math.floor(Math.random() * (30 - 10)) + 10)
         }
     ]
     res.render('shopping', {
