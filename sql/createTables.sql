@@ -12,7 +12,7 @@ CREATE TABLE users
 	firstName varchar(255) NOT NULL,
 	userEmail varchar(320) NOT NULL,
 	userPassword varchar(64) NOT NULL,
-	wallet decimal(19,4) NOT NULL,
+	wallet decimal(19,4) NOT NULL DEFAULT 50,
 	PRIMARY KEY (userId)
 )
 ENGINE=INNODB;
