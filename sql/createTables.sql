@@ -7,7 +7,7 @@ drop table brand;
 
 CREATE TABLE users
 (
-	userId INT NOT NULL,
+	userId varchar(255) NOT NULL,
 	lastName varchar(255) NOT NULL,
 	firstName varchar(255) NOT NULL,
 	userEmail varchar(320) NOT NULL,
