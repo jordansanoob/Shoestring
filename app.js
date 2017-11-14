@@ -1,4 +1,5 @@
 const express = require('express');
+const mysql = require('mysql');
 const path = require('path');
 
 //Init app
@@ -10,6 +11,21 @@ app.set('view engine', 'pug');
 
 //Public folder
 app.use(express.static(path.join(__dirname, 'public')));
+
+var connection = mysql.createConnection({
+    host: 'webdev.cislabs.uncw.edu',
+    user: 'jha2135',
+    password: 'Xibalba8487',
+    database: 'narayan3'
+});
+
+connection.connect(function (err) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log('Connected');
+    }
+});
 
 //Home route
 app.get('/', function (req, res) {
@@ -82,12 +98,12 @@ app.get('/', function (req, res) {
 });
 
 //Register page
-app.get('/register', function(req, res) {
+app.get('/register', function (req, res) {
     res.render('register');
 });
 
 //Login page
-app.get('/login', function(req, res) {
+app.get('/login', function (req, res) {
     res.render('userLogin');
 });
 
