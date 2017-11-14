@@ -1,7 +1,6 @@
 const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
-const mysql = require('mysql');
 
 //Init app
 const app = express();
