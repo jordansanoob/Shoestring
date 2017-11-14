@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
+const mysql = require('mysql');
 
 //Init app
 const app = express();
@@ -12,18 +13,17 @@ app.set('view engine', 'pug');
 //Public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-var connection = mysql.createConnection({
+var sqlInfo = mysql.createConnection({
     host: 'webdev.cislabs.uncw.edu',
-    user: 'jha2135',
-    password: 'Xibalba8487',
+    user: 'pdm3872',
+    password: '4y1ev7EaO',
     database: 'narayan3'
 });
 
-connection.connect(function (err) {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log('Connected');
+sqlInfo.connect(function (err) {
+    if (err) throw err;
+    else {
+        console.log("connected");
     }
 });
 
