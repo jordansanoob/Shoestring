@@ -56,7 +56,7 @@ CREATE TABLE cart
 (
 	entryNumber INT NOT NULL AUTO_INCREMENT,
 	quantity INT NOT NULL,
-	userId INT NOT NULL,
+	userId varchar(255) NOT NULL,
 	itemId varchar(7) NOT NULL,
 	PRIMARY KEY (entryNumber),
 	FOREIGN KEY (userId) REFERENCES users(userId),
@@ -67,7 +67,7 @@ ENGINE=INNODB;
 CREATE TABLE purchased
 (
 	purchaseId INT NOT NULL AUTO_INCREMENT,
-	userId INT NOT NULL,
+	userId varchar(255) NOT NULL,
 	itemId varchar(7) NOT NULL,
 	quantity INT NOT NULL,
 	purchaseDate varchar(10) NOT NULL,
