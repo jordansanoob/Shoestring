@@ -5,7 +5,7 @@ delete from inventory;
 delete from cart;
 delete from purchased;
 
-insert into users
+insert into users (userId, lastName, firstName, userEmail, userPassword)
 values  (1000, "admin", "admin", "admin@shoestring.com", "password"),
         (2000, "Sebastian", "Stan", "s.stan@yahoo.com", "sstanpass"),
         (3000, "Winston", "Devine", "w.devine@gmail.com", "wdevinepass"),
