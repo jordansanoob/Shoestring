@@ -50,7 +50,8 @@ html
                                     th Price
                                 each item, i in inventory
                                     tr
-                                        td #
+                                        td
+                                            input(type="checkbox")
                                         td= item.id
                                         td= item.name
                                         td= item.brand
@@ -70,6 +71,14 @@ html
                                     th First
                                     th Last
                                     th Orders
+                                each user, u in users
+                                    tr
+                                        td
+                                            input(type="checkbox")
+                                        td= user.id
+                                        td= user.first
+                                        td= user.last
+                                        td= user.wallet
                     button.btn.btn-success Add User
                     button.btn.btn-warning Edit User
                     button.btn.btn-danger Delete User
@@ -81,9 +90,18 @@ html
                                 tr
                                     th #
                                     th Order ID
-                                    th Name
-                                    th Brand
-                                    th Price
+                                    th Item ID
+                                    th Quantity
+                                    th Purchased Date
+
+                                each order, o in orders
+                                    tr
+                                        td
+                                            input(type="checkbox")
+                                        td= order.id
+                                        td= order.name
+                                        td= order.qty
+                                        td= order.pdate
                     button.btn.btn-success Add Order 
                     button.btn.btn-warning Edit Order 
                     button.btn.btn-danger Delete Order                                 

@@ -67,28 +67,60 @@ app.get('/admin', function (req, res) {
     var users = [];
     var orders = [];
 
+    // grab the data to populate the inventory array
     sqlInfo.query('select * from inventory', function (err, data) {
-        if (data) {
-            data.forEach(function (row) {
-                var item = {
-                    id: row.itemId,
-                    name: row.itemName,
-                    brand: row.brandId,
-                    price: row.price
-                }
-                inventory.push(item);
-            });
-        } else {
-            console.log(err);
-        }
+        if (err) throw err;
 
-
-        res.render('admin', {
-            admin: 'Jordan',
-            inventory: inventory
+        // create an object for each item in inventory
+        data.forEach(function (row) {
+            var item = {
+                id: row.itemId,
+                name: row.itemName,
+                brand: row.brandId,
+                price: row.price
+            }
+            inventory.push(item);
         });
-    });
-});
+
+        // grab the data to populate the users array
+        sqlInfo.query('select * from users', function (err2, data2) {
+            if (err2) throw err2;
+
+            //create an object for each user
+            data2.forEach(function (row) {
+                var item = {
+                    id: row.userId,
+                    first: row.firstName,
+                    last: row.lastName,
+                    wallet: row.wallet
+                }
+                users.push(item);
+            });
+
+            // grab the data to populate the orders array
+            sqlInfo.query('select * from purchased', function (err3, data3) {
+                if (err3) throw err3;
+
+                //create an object for each order
+                data3.forEach(function (row) {
+                    var item = {
+                        id: row.purchaseId,
+                        name: row.itemId,
+                        qty: row.quantity,
+                        pdate: row.purchaseDate
+                    }
+                    orders.push(item);
+                });
+                res.render('admin', {
+                    admin: 'Jordan',
+                    inventory: inventory,
+                    users: users,
+                    orders: orders
+                });
+            }); // purchased query end
+        }); // users query end
+    }); // inventory query end
+}); // admin get end
 
 
 //Start server
