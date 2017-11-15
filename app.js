@@ -1,7 +1,6 @@
 const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
-const mysql = require('mysql');
 
 //Init app
 const app = express();
@@ -15,8 +14,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var sqlInfo = mysql.createConnection({
     host: 'webdev.cislabs.uncw.edu',
-    user: 'pdm3872',
-    password: '4y1ev7EaO',
+    user: 'jha2135',
+    password: 'xczcCx3bH',
     database: 'narayan3'
 });
 
@@ -29,72 +28,26 @@ sqlInfo.connect(function (err) {
 
 //Home route
 app.get('/', function (req, res) {
-    let inventory = [
-        {
-            name: "Tee-Shirt",
-            brand: "Nike",
-            price: (Math.floor(Math.random() * (30 - 10)) + 10)
-        },
-        {
-            name: "Hat",
-            brand: "Adidas",
-            price: (Math.floor(Math.random() * (30 - 10)) + 10)
-        },
-        {
-            name: "Shorts",
-            brand: "Reebok",
-            price: (Math.floor(Math.random() * (30 - 10)) + 10)
-        },
-        {
-            name: "Pants",
-            brand: "Under Armour",
-            price: (Math.floor(Math.random() * (30 - 10)) + 10)
-        },
-        {
-            name: "Jacket",
-            brand: "Adidas",
-            price: (Math.floor(Math.random() * (30 - 10)) + 10)
-        },
-        {
-            name: "Watch",
-            brand: "Champion",
-            price: (Math.floor(Math.random() * (30 - 10)) + 10)
-        },
-        {
-            name: "Socks",
-            brand: "Nike",
-            price: (Math.floor(Math.random() * (30 - 10)) + 10)
-        },
-        {
-            name: "Belt",
-            brand: "Dickies",
-            price: (Math.floor(Math.random() * (30 - 10)) + 10)
-        },
-        {
-            name: "Scarf",
-            brand: "N/A",
-            price: (Math.floor(Math.random() * (30 - 10)) + 10)
-        },
-        {
-            name: "Jeans",
-            brand: "Levi",
-            price: (Math.floor(Math.random() * (30 - 10)) + 10)
-        },
-        {
-            name: "Headband",
-            brand: "Nike",
-            price: (Math.floor(Math.random() * (30 - 10)) + 10)
-        },
-        {
-            name: "Glasses",
-            brand: "Oakley",
-            price: (Math.floor(Math.random() * (30 - 10)) + 10)
+    var inventory = [];
+    sqlInfo.query('select * from inventory', function (err, data) {
+        if (err) {
+            console.log(err)
+        } else {
+            data.forEach(function (row) {
+                var item = {
+                    name: row.itemName,
+                    brand: row.brandId,
+                    price: row.price
+                }
+                inventory.push(item);
+            });
         }
-    ]
-    res.render('shopping', {
-        name: 'Inventory',
-        inventory: inventory
+        res.render('shopping', {
+            name: 'Inventory',
+            inventory: inventory
+        });
     });
+
 });
 
 //Register page
@@ -109,8 +62,29 @@ app.get('/login', function (req, res) {
 
 //Admin page
 app.get('/admin', function (req, res) {
-    res.render('admin', {
-        admin: 'Jordan'
+
+    var inventory = [];
+    var users = [];
+    var orders = [];
+
+    sqlInfo.query('select * from inventory', function (err, data) {
+        if (data) {
+            data.forEach(function (row) {
+                var item = {
+                    id: row.itemId,
+                    name: row.itemName,
+                    brand: row.brandId,
+                    price: row.price
+                }
+                inventory.push(item);
+            });
+        } else {
+            console.log(err);
+        }
+        res.render('admin', {
+            admin: 'Jordan',
+            inventory: inventory
+        });
     });
 });
 

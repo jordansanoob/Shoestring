@@ -48,6 +48,13 @@ html
                                     th Name
                                     th Brand
                                     th Price
+                                each item, i in inventory
+                                    tr
+                                        td #
+                                        td= item.id
+                                        td= item.name
+                                        td= item.brand
+                                        td= item.price
 
                     button.btn.btn-success Add Item
                     button.btn.btn-warning Edit Item

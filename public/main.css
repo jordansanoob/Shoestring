@@ -1,24 +1,36 @@
 body{
     color:black;
+    margin: 0;
+    padding: 0;
+}
+
+h1{
+    text-align: center;
+}
+
+.container{
+    margin:auto;
+    align-items: center;
 }
 
 .inventory{
-    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.inventory h2{
+    font-size: 1.1em;
 }
 
 .inventory-item{
-    position: relative;
-    display: inline-block;
     transition: all .4s;
     text-align: center;
-    height: 50%;
-    width: 25%;
-    padding: 5px;
-    margin: 5px;
+    padding: .5em;
+    width: 33.333%;
     background-color: grey;
     color: white;
 }
 
 .inventory-item:hover{
-    transform: scale(1.02);
+    background-color: rgb(82, 82, 82);
 }
