@@ -81,6 +81,8 @@ app.get('/admin', function (req, res) {
         } else {
             console.log(err);
         }
+
+
         res.render('admin', {
             admin: 'Jordan',
             inventory: inventory
