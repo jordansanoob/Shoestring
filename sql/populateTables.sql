@@ -5,14 +5,14 @@ delete from inventory;
 delete from cart;
 delete from purchased;
 
-insert into users
-values  (1000, "admin", "admin", "admin@shoestring.com", "password"),
-        (2000, "Sebastian", "Stan", "s.stan@yahoo.com", "sstanpass"),
-        (3000, "Winston", "Devine", "w.devine@gmail.com", "wdevinepass"),
-        (4000, "Francesca", "Wilder", "f.wilder@uncw.edu", "fwilderpass"),
-        (5000, "Jamie", "Lane", "j.lane@aol.com", "jlanepass"),
-        (6000, "Parker", "Cotterfield", "p.cotterfield@bing.com", "pcotterfieldpass"),
-        (7000, "Melissa", "Ferrero", "m.ferrero@gmail.com", "mferreropass");
+insert into users (userId, lastName, firstName, userEmail, userPassword)
+values  ('1000', "admin", "admin", "admin@shoestring.com", "password"),
+        ('2000', "Sebastian", "Stan", "s.stan@yahoo.com", "sstanpass"),
+        ('3000', "Winston", "Devine", "w.devine@gmail.com", "wdevinepass"),
+        ('4000', "Francesca", "Wilder", "f.wilder@uncw.edu", "fwilderpass"),
+        ('5000', "Jamie", "Lane", "j.lane@aol.com", "jlanepass"),
+        ('6000', "Parker", "Cotterfield", "p.cotterfield@bing.com", "pcotterfieldpass"),
+        ('7000', "Melissa", "Ferrero", "m.ferrero@gmail.com", "mferreropass");
 
 insert into department
 values  ("MUS", "Music", "Lennon"),

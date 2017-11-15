@@ -7,11 +7,12 @@ drop table brand;
 
 CREATE TABLE users
 (
-	userId INT NOT NULL,
+	userId varchar(255) NOT NULL,
 	lastName varchar(255) NOT NULL,
 	firstName varchar(255) NOT NULL,
 	userEmail varchar(320) NOT NULL,
 	userPassword varchar(64) NOT NULL,
+	wallet decimal(19,4) NOT NULL DEFAULT 50,
 	PRIMARY KEY (userId)
 )
 ENGINE=INNODB;
@@ -55,7 +56,7 @@ CREATE TABLE cart
 (
 	entryNumber INT NOT NULL AUTO_INCREMENT,
 	quantity INT NOT NULL,
-	userId INT NOT NULL,
+	userId varchar(255) NOT NULL,
 	itemId varchar(7) NOT NULL,
 	PRIMARY KEY (entryNumber),
 	FOREIGN KEY (userId) REFERENCES users(userId),
@@ -66,7 +67,7 @@ ENGINE=INNODB;
 CREATE TABLE purchased
 (
 	purchaseId INT NOT NULL AUTO_INCREMENT,
-	userId INT NOT NULL,
+	userId varchar(255) NOT NULL,
 	itemId varchar(7) NOT NULL,
 	quantity INT NOT NULL,
 	purchaseDate varchar(10) NOT NULL,
