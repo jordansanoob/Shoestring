@@ -111,7 +111,7 @@ app.get('/admin', function (req, res) {
                     }
                     orders.push(item);
                 });
-                res.render('admin', {
+                res.render('admin-content', {
                     admin: 'Jordan',
                     inventory: inventory,
                     users: users,
@@ -122,6 +122,47 @@ app.get('/admin', function (req, res) {
     }); // inventory query end
 }); // admin get end
 
+//Add user route
+app.get('/user/add', function (req, res) {
+    res.render("add-user");
+});
+
+//Add user route
+app.get('/item/add', function (req, res) {
+    res.render("add-item");
+});
+
+//Add user route
+app.get('/order/add', function (req, res) {
+    res.render("add-order");
+});
+
+//Edit user route
+app.get('/user/edit/:id', function (req, res) {
+    var user;
+    res.render("edit-user", {
+        title: "Edit User",
+        user: user
+    });
+});
+
+//Edit item route
+app.get('/inventory/edit/:id', function (req, res) {
+    var item;
+    res.render("edit-item", {
+        title: "Edit Item",
+        item: item
+    });
+});
+
+//Edit order route
+app.get('/order/edit/:id', function (req, res) {
+    var order;
+    res.render("edit-order", {
+        title: "Edit order",
+        order: order
+    });
+});
 
 //Start server
 app.listen(3000, function () {

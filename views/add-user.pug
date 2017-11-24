@@ -1,0 +1,17 @@
+extends admin-layout
+block content
+    h2 #{title}
+    form(action='/user/add', method="POST")
+        #form-group
+            Label User ID
+            input.form-control(name="id", type="text")
+        #form-group
+            Label First Name
+            input.form-control(name="id", type="text")
+        #form-group
+            Label Last Name
+            input.form-control(name="id", type="text")
+        #form-group
+            Label Wallet
+            input.form-control(name="id", type="text")
+        input.btn.btn-primary(type="submit", value="Submit")

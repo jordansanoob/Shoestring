@@ -1,0 +1,17 @@
+extends admin-layout
+block content
+    h2 #{title}
+    form(action='/order/edit/'+order.id, method="POST")
+        #form-group
+            Label Order ID
+            input.form-control(name="id", type="text", value=order.id, disabled)
+        #form-group
+            Label Item ID
+            input.form-control(name="id", type="text", value=order.name disabled)
+        #form-group
+            Label Quantity
+            input.form-control(name="id", type="text", value=order.qty)
+        #form-group
+            Label Purchased Date
+            input.form-control(name="id", type="date", value=order.pdate)
+        input.btn.btn-primary(type="submit", value="Submit")
