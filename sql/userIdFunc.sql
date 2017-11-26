@@ -5,7 +5,7 @@ BEGIN
 	DECLARE cond INT;
 	DECLARE uid INT;
 	SET uid := (SELECT FLOOR (RAND()*(9999-1000+1)+1000));
-	SET cond := (SELECT 1 FROM users WHERE userid = uid);
+	SET cond := (SELECT 1 FROM users WHERE userId = uid);
 	WHILE (cond > 0) DO
 		SET uid := (SELECT FLOOR (RAND()*(9999-1000+1)+1000));
 		SET cond := (SELECT 1 FROM users WHERE userid = uid);

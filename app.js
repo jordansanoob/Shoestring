@@ -1,9 +1,14 @@
 const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
+const bodyParser = require('body-parser');
 
 //Init app
 const app = express();
+
+//Init bodyparser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 //Load View Engine
 app.set('views', path.join(__dirname, 'views'));
@@ -53,6 +58,11 @@ app.get('/', function (req, res) {
 //Register page
 app.get('/register', function (req, res) {
     res.render('register');
+});
+
+app.post('/register', function (req, res) {
+    console.log(JSON.stringify(req.body.inputFirstName));
+    sqlInfo.query('insert into users ');
 });
 
 //Login page
