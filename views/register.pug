@@ -3,37 +3,45 @@ extends layout
 block content
 	div.jumbotron
 		h1 Register
-		p Enter your information below to create your account!
+		h3
+			center Enter your information below to create an account!
 
 	div.form-group
-		input(
-			type="firstName"
-			id="inputFirstName"
-			class="form-control"
-			placeholder="First Name"
-			style="width: 200px"
+		form(
+			method="post"
+			action="/register"
 		)
-		input(
-			type="lastName"
-			id="inputLastName"
-			class="form-control"
-			placeholder="Last Name"
-			style="width: 200px"
-		)
-		input(
-			type="email"
-			id="inputEmail"
-			class="form-control"
-			placeholder="Email address"
-			style="width: 200px"
-		)
-		input(
-			type="password"
-			id="inputPassword"
-			class="form-control"
-			placeholder="Password"
-			style="width: 200px"
-		)
+			input(
+				type="firstName"
+				name="inputFirstName"
+				class="form-control"
+				placeholder="First Name"
+				style="width: 200px"
+			)
+			input(
+				type="lastName"
+				name="inputLastName"
+				class="form-control"
+				placeholder="Last Name"
+				style="width: 200px"
+			)
+			input(
+				type="email"
+				name="inputEmail"
+				class="form-control"
+				placeholder="Email address"
+				style="width: 200px"
+			)
+			input(
+				type="password"
+				name="inputPassword"
+				class="form-control"
+				placeholder="Password"
+				style="width: 200px"
+			)
+			input(
+				type="submit"
+			)
 
-	div.btn-group
-		a(href="#" id="btnRegister" class="btn btn-primary") Register
+	//div.btn-group
+		button(id="btnRegister" class="btn btn-primary" type="submit") Register

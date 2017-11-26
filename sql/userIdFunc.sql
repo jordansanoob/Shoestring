@@ -1,14 +1,15 @@
 drop function if exists generateUID;
 DELIMITER $$
-CREATE FUNCTION generateUID(first varchar(255), last varchar(255)) RETURNS INT
+CREATE FUNCTION generateUID() RETURNS varchar(4)
 BEGIN
-	DECLARE uid varchar(255);
 	DECLARE cond INT;
-	SET uid = CAST((SELECT FLOOR (RAND()*(9999-1000+1)+1000)) AS char(255));
-	SET cond = (SELECT 1 FROM users WHERE userid = uid);
+	DECLARE uid INT;
+	SET uid := (SELECT FLOOR (RAND()*(9999-1000+1)+1000));
+	SET cond := (SELECT 1 FROM users WHERE userId = uid);
 	WHILE (cond > 0) DO
-		SET uid = CAST(SELECT FLOOR (RAND()*(9999-1000+1))+1000 AS char(255));
-		SET cond = SELECT 1 FROM users WHERE userid = uid;
+		SET uid := (SELECT FLOOR (RAND()*(9999-1000+1)+1000));
+		SET cond := (SELECT 1 FROM users WHERE userid = uid);
 	END WHILE;
+	RETURN CONVERT(uid,char);
 END$$
 DELIMITER ;
