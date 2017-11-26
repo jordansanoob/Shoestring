@@ -122,45 +122,70 @@ app.get('/admin', function (req, res) {
     }); // inventory query end
 }); // admin get end
 
+
+//Add item route
+app.get('/item/add', function (req, res) {
+    res.render("add-item");
+});
+
+
+//Edit item route
+app.get('/inventory/edit/:id', function (req, res) {
+    var item;
+    let sql = `select * from inventory where itemId = '${req.params.id}'`
+    console.log(req.body);
+    sqlInfo.query(sql, (err, data) => {
+        if (err) throw err
+        res.render("edit-item", {
+            title: "Edit Item",
+            item: data[0]
+        });
+    })
+});
+
+//Update item route
+app.post('/inventory/edit/:id', (req, res) => {
+    res.send(
+        req.body
+    )
+});
+
+
+
+
+
 //Add user route
 app.get('/user/add', function (req, res) {
     res.render("add-user");
 });
 
-//Add user route
-app.get('/item/add', function (req, res) {
-    res.render("add-item");
-});
-
-//Add user route
-app.get('/order/add', function (req, res) {
-    res.render("add-order");
-});
-
 //Edit user route
-app.get('/user/edit/:id', function (req, res) {
+app.get('/user/edit/:id', (req, res) => {
+
     var user;
-    res.render("edit-user", {
-        title: "Edit User",
-        user: user
-    });
+    let sql = `select * from users where userId = ${req.params.id}`
+    sqlInfo.query(sql, (err, data) => {
+        res.render("edit-user", {
+            title: "Edit User",
+            user: data[0]
+        });
+    })
+
 });
 
-//Edit item route
-app.get('/inventory/edit/:id', function (req, res) {
-    var item;
-    res.render("edit-item", {
-        title: "Edit Item",
-        item: item
-    });
-});
+
 
 //Edit order route
 app.get('/order/edit/:id', function (req, res) {
     var order;
-    res.render("edit-order", {
-        title: "Edit order",
-        order: order
+    let sql = `select * from purchased where purchaseId = ${req.params.id}`
+
+    sqlInfo.query(sql, (err, data) => {
+        if (err) throw err
+        console.log(data);
+        res.render('edit-order', {
+            order: data[0]
+        })
     });
 });
 

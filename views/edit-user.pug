@@ -1,16 +1,16 @@
 extends admin-layout
 block content
     h2 #{title}
-    form(action='/user/edit/'+user.id, method="POST")
+    form(action='/user/edit/'+user.userId, method="POST")
         #form-group
             Label User ID
-            input.form-control(name="id", type="text", value=user.id, disabled)
+            input.form-control(name="id", type="text", value=user.userId, disabled)
         #form-group
             Label First Name
-            input.form-control(name="id", type="text", value=user.first)
+            input.form-control(name="id", type="text", value=user.firstName)
         #form-group
             Label Last Name
-            input.form-control(name="id", type="text", value=user.last)
+            input.form-control(name="id", type="text", value=user.lastName)
         #form-group
             Label Wallet
             input.form-control(name="id", type="text", value=user.wallet)
