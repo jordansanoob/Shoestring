@@ -36,7 +36,9 @@ sqlInfo.connect(function (err) {
 //Home route
 app.get('/', function (req, res) {
     var inventory = [];
-    sqlInfo.query('select * from inventory', function (err, data) {
+    var sql = `select * from inventory`;
+
+    sqlInfo.query(sql, function (err, data) {
         if (err) {
             console.log(err)
         } else {
@@ -77,6 +79,8 @@ app.post('/register', function (req, res) {
 app.get('/login', function (req, res) {
     res.render('userLogin');
 });
+
+
 
 //Admin page
 app.get('/admin', function (req, res) {
