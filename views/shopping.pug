@@ -2,9 +2,13 @@ extends layout
 block content
     h1 Shop
     
-    div.inventory
+    .inventory
         each item, i in inventory
-            div.inventory-item
-                h2= item.name
-                p= item.brand
-                p= "$" + item.price
+            .responsive
+                .gallery
+                    img(src='img_fjords.jpg', alt='', width='300', height='200')
+                    .desc 
+                        h4= item.name
+                        p= item.price
+
+                    a.btn.btn-primary(href='#' value=item.id) Add to cart!

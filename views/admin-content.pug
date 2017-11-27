@@ -21,7 +21,7 @@ block content
                         td
                             a(href="/inventory/edit/" + item.id)
                                 span.glyphicon.glyphicon-pencil
-                            a(href="/inventory/delete")
+                            a(href="/inventory/delete/" + item.id)
                                 span.glyphicon.glyphicon-trash
                 tr
                     td
@@ -53,7 +53,7 @@ block content
                         td
                             a(href="/user/edit/" + user.id)
                                 span.glyphicon.glyphicon-pencil
-                            a(href="/user/delete")
+                            a(href="/user/delete/" + user.id)
                                 span.glyphicon.glyphicon-trash
                 tr
                     td
@@ -85,7 +85,7 @@ block content
                         td
                             a(href='/order/edit/' + order.pid)
                                 span.glyphicon.glyphicon-pencil
-                            a(href="/order/delete")
+                            a(href="/order/delete/" + order.pid)
                                 span.glyphicon.glyphicon-trash
                 tr
                     td ----

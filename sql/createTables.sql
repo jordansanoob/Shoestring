@@ -43,7 +43,6 @@ CREATE TABLE inventory
 	itemId varchar(7) NOT NULL,
 	itemName varchar(32) NOT NULL,
 	price DECIMAL(19,4) NOT NULL,
-	gender VARCHAR(1),
 	departmentId varchar(3) NOT NULL,
 	brandId varchar(4),
 	PRIMARY KEY (itemId),
@@ -71,7 +70,7 @@ CREATE TABLE purchased
 	itemId varchar(7) NOT NULL,
 	quantity INT NOT NULL,
 	purchaseDate DATE NOT NULL,
-	deliveryDate DATE NOT NULL,
+	deliveryDate DATE,
 	PRIMARY KEY (purchaseId),
 	FOREIGN KEY (userId) REFERENCES users(userId),
 	FOREIGN KEY (itemId) REFERENCES inventory(itemId)
