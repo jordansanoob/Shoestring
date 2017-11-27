@@ -59,8 +59,10 @@ CREATE TABLE cart
 	userId varchar(255) NOT NULL,
 	itemId varchar(7) NOT NULL,
 	PRIMARY KEY (entryNumber),
-	FOREIGN KEY (userId) REFERENCES users(userId),
+	FOREIGN KEY (userId) REFERENCES users(userId)
+	ON DELETE CASCADE,
 	FOREIGN KEY (itemId) REFERENCES inventory(itemId)
+	ON DELETE CASCADE
 )
 ENGINE=INNODB;
 
@@ -73,8 +75,10 @@ CREATE TABLE purchased
 	purchaseDate DATE NOT NULL,
 	deliveryDate DATE NOT NULL,
 	PRIMARY KEY (purchaseId),
-	FOREIGN KEY (userId) REFERENCES users(userId),
+	FOREIGN KEY (userId) REFERENCES users(userId)
+	ON DELETE CASCADE,
 	FOREIGN KEY (itemId) REFERENCES inventory(itemId)
+	ON DELETE CASCADE
 
 )
 ENGINE=INNODB;
