@@ -1,18 +1,18 @@
 extends admin-layout
 block content
     h2 #{title}
-    form(action='/item/edit/'+item.itemId, method="POST")
+    form(action='/inventory/edit/'+item.itemId, method="POST")
         #form-group
             Label Item ID
             input.form-control(name="id", type="text", value=item.itemId, disabled)
         #form-group
             Label Item Name
-            input.form-control(name="id", type="text", value=item.itemName)
+            input.form-control(name="name", type="text", value=item.itemName)
         #form-group
             Label Brand
-            input.form-control(name="id", type="text", value=item.brandId)
+            input.form-control(name="brand", type="text", value=item.brandId)
         #form-group
             Label Price
-            input.form-control(name="id", type="text", value=item.price)
+            input.form-control(name="price", type="text", value=item.price)
         input.btn.btn-primary(type="submit", value="Submit")
     

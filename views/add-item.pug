@@ -1,14 +1,14 @@
 extends admin-layout
 block content
     h2 #{title}
-    form(action='/item/add', method="POST")
+    form(action='/inventory/add', method="POST")
         #form-group
             Label Item Name
             input.form-control(name="id", type="text")
         #form-group
             Label Brand
-            input.form-control(name="id", type="text")
+            input.form-control(name="brand", type="text")
         #form-group
             Label Price
-            input.form-control(name="id", type="text")
+            input.form-control(name="price", type="text")
         input.btn.btn-primary(type="submit", value="Submit")

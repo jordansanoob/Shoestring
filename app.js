@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
+const bodyParser = require('body-parser')
 
 //Init app
 const app = express();
@@ -8,6 +9,12 @@ const app = express();
 //Load View Engine
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 //Public folder
 app.use(express.static(path.join(__dirname, 'public')));
@@ -124,7 +131,7 @@ app.get('/admin', function (req, res) {
 
 
 //Add item route
-app.get('/item/add', function (req, res) {
+app.get('/inventory/add', function (req, res) {
     res.render("add-item");
 });
 
@@ -133,7 +140,6 @@ app.get('/item/add', function (req, res) {
 app.get('/inventory/edit/:id', function (req, res) {
     var item;
     let sql = `select * from inventory where itemId = '${req.params.id}'`
-    console.log(req.body);
     sqlInfo.query(sql, (err, data) => {
         if (err) throw err
         res.render("edit-item", {
@@ -145,10 +151,18 @@ app.get('/inventory/edit/:id', function (req, res) {
 
 //Update item route
 app.post('/inventory/edit/:id', (req, res) => {
-    res.send(
-        req.body
-    )
+
+    var sql = `update inventory 
+                set itemName = '${req.body.name}', 
+                brandId = '${req.body.brand}', 
+                price = ${req.body.price} where itemId = '${req.params.id}'`
+
+    sqlInfo.query(sql, (err, data) => {
+        if (err) throw err
+        res.redirect('/admin');
+    })
 });
+
 //Add user route
 app.get('/user/add', function (req, res) {
     res.render("add-user");
@@ -160,13 +174,26 @@ app.get('/user/edit/:id', (req, res) => {
     var user;
     let sql = `select * from users where userId = ${req.params.id}`
     sqlInfo.query(sql, (err, data) => {
+        if (err) throw err;
         res.render("edit-user", {
             title: "Edit User",
             user: data[0]
         });
     })
-
 });
+
+app.post('/user/edit/:id', (req, res) => {
+
+    var sql = `update users 
+    set firstName = '${req.body.first}', 
+    lastName = '${req.body.last}', 
+    wallet = ${req.body.wallet} where userId = '${req.params.id}'`
+
+    sqlInfo.query(sql, (err, data) => {
+        if (err) throw err
+        res.redirect('/admin');
+    })
+})
 
 
 

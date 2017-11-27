@@ -4,14 +4,14 @@ block content
     form(action='/order/edit/'+order.purchaseId, method="POST")
         #form-group
             Label Order ID
-            input.form-control(name="id", type="text", value=order.purchaseId, disabled)
+            input.form-control(name="orderId", type="text", value=order.purchaseId, disabled)
         #form-group
             Label Item ID
-            input.form-control(name="id", type="text", value=order.itemId disabled)
+            input.form-control(name="itemId", type="text", value=order.itemId disabled)
         #form-group
             Label Quantity
-            input.form-control(name="id", type="text", value=order.quantity)
+            input.form-control(name="qty", type="text", value=order.quantity)
         #form-group
             Label Purchased Date
-            input.form-control(name="id", type='date', value=order.purchaseDate)
+            input.form-control(name="pdate", type='date', value=order.purchaseDate)
         input.btn.btn-primary(type="submit", value="Submit")
