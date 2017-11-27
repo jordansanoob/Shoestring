@@ -62,6 +62,17 @@ app.get('/register', function (req, res) {
     res.render('register');
 });
 
+app.post('/register', function (req, res) {
+    var sql = `insert into users(userId, lastName, firstName, userEmail, userPassword)
+                            values(generateUID(), '${req.body.inputLastName}', 
+                            '${req.body.inputFirstName}', '${req.body.inputEmail}', 
+                            '${req.body.inputPassword}')`
+    sqlInfo.query(sql, (err, data) => {
+        if(err) throw err;
+        res.render('registerSuccess');
+    });
+});
+
 //Login page
 app.get('/login', function (req, res) {
     res.render('userLogin');
