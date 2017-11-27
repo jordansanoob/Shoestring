@@ -1,7 +1,21 @@
 extends layout
 block content
     h1 Shop
-    
+
+    form.form-horizontal(
+        method='post'
+        action='/')
+        #form-group
+            center
+                select(width='60', type='text', name='filter')
+                    option(value='itemId') Item Name
+                    option(value='price') Price
+                    option(value='departmentId') Department
+                    option(value='brandId') Brand
+                input.btn.btn-default(type='submit', value='Filter')
+
+    hr
+
     .inventory
         each item, i in inventory
             .responsive
