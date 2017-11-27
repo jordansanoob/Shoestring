@@ -111,10 +111,11 @@ app.get('/admin', function (req, res) {
                 //create an object for each order
                 data3.forEach(function (row) {
                     var item = {
-                        id: row.purchaseId,
-                        name: row.itemId,
+                        pid: row.purchaseId,
+                        iid: row.itemId,
                         qty: row.quantity,
-                        pdate: row.purchaseDate
+                        pdate: row.purchaseDate,
+                        ddate: row.deliveryDate
                     }
                     orders.push(item);
                 });
@@ -155,6 +156,7 @@ app.post('/inventory/edit/:id', (req, res) => {
     var sql = `update inventory 
                 set itemName = '${req.body.name}', 
                 brandId = '${req.body.brand}', 
+                departmentId = '${req.body.dept}',
                 price = ${req.body.price} where itemId = '${req.params.id}'`
 
     sqlInfo.query(sql, (err, data) => {
@@ -182,6 +184,7 @@ app.get('/user/edit/:id', (req, res) => {
     })
 });
 
+//Update user route
 app.post('/user/edit/:id', (req, res) => {
 
     var sql = `update users 
@@ -192,24 +195,40 @@ app.post('/user/edit/:id', (req, res) => {
     sqlInfo.query(sql, (err, data) => {
         if (err) throw err
         res.redirect('/admin');
-    })
-})
-
+    });
+});
 
 
 //Edit order route
 app.get('/order/edit/:id', function (req, res) {
     var order;
-    let sql = `select * from purchased where purchaseId = ${req.params.id}`
 
+    let sql = `select * from purchased where purchaseId = ${req.params.id}`
     sqlInfo.query(sql, (err, data) => {
         if (err) throw err
-        console.log(data);
+        // data[0].purchaseDate = data[0].purchaseDate.stringify().replace(/-/g, '');
+        // data[0].deliveryDate = data[0].deliveryDate.stringify().replace(/-/g, '');
+        console.log(data[0])
         res.render('edit-order', {
             order: data[0]
         })
     });
 });
+
+app.post('/order/edit/:id', function (req, res) {
+    var sql = `update purchased 
+    set qty = '${req.body.qty}', 
+    purchaseDate = '${req.body.pdate}', 
+    deliveryDate = ${req.body.ddate} where purchaseId = ${req.params.id}`;
+
+    console.log(req.body);
+
+    sqlInfo.query(sql, (err, data) => {
+        if (err) throw err
+        res.redirect('/admin');
+    });
+});
+
 
 //Start server
 app.listen(3000, function () {

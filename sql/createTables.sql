@@ -70,8 +70,8 @@ CREATE TABLE purchased
 	userId varchar(255) NOT NULL,
 	itemId varchar(7) NOT NULL,
 	quantity INT NOT NULL,
-	purchaseDate varchar(10) NOT NULL,
-	deliveryDate varchar(10) NOT NULL,
+	purchaseDate DATE NOT NULL,
+	deliveryDate DATE NOT NULL,
 	PRIMARY KEY (purchaseId),
 	FOREIGN KEY (userId) REFERENCES users(userId),
 	FOREIGN KEY (itemId) REFERENCES inventory(itemId)

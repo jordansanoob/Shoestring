@@ -9,8 +9,27 @@ block content
             Label Item Name
             input.form-control(name="name", type="text", value=item.itemName)
         #form-group
-            Label Brand
-            input.form-control(name="brand", type="text", value=item.brandId)
+            Label(for=sel) Brand
+            select.form-control(name="brand", type="text" id=sel)
+                option ADID
+                option FARB
+                option HLGR
+                option NIKE
+                option PTGA
+                option SONY
+                option TSBA
+                option N/A
+
+        #form-group
+            Label(for=sel2) Department
+            select.form-control(name="dept", type="text" id=sel2)
+                option CLO
+                option HME
+                option BKS
+                option ELE
+                option ATO
+                option MUS
+                
         #form-group
             Label Price
             input.form-control(name="price", type="text", value=item.price)

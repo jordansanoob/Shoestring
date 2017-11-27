@@ -25,7 +25,7 @@ block content
                                 span.glyphicon.glyphicon-trash
                 tr
                     td
-                        a(href="/item/add")
+                        a(href="/inventory/add")
                                 span.glyphicon.glyphicon-plus
                     td ----
                     td ----
@@ -69,21 +69,21 @@ block content
             table.table.table-striped
                 thead
                     tr
-                        th #
-                        th Order ID
+                        th Purchase ID
                         th Item ID
                         th Quantity
                         th Purchased Date
+                        th Delivery Date
 
                 each order, o in orders
                     tr
-                        td= o + 1
-                        td= order.id
-                        td= order.name
+                        td= order.pid
+                        td= order.iid
                         td= order.qty
                         td= order.pdate
+                        td= order.ddate
                         td
-                            a(href='/order/edit/' + order.id)
+                            a(href='/order/edit/' + order.pid)
                                 span.glyphicon.glyphicon-pencil
                             a(href="/order/delete")
                                 span.glyphicon.glyphicon-trash

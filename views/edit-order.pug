@@ -3,8 +3,8 @@ block content
     h2 #{title}
     form(action='/order/edit/'+order.purchaseId, method="POST")
         #form-group
-            Label Order ID
-            input.form-control(name="orderId", type="text", value=order.purchaseId, disabled)
+            Label Purchase ID
+            input.form-control(name="purchaseId", type="text", value=order.purchaseId, disabled)
         #form-group
             Label Item ID
             input.form-control(name="itemId", type="text", value=order.itemId disabled)
@@ -14,4 +14,7 @@ block content
         #form-group
             Label Purchased Date
             input.form-control(name="pdate", type='date', value=order.purchaseDate)
+        #form-group
+            Label Delivered Date
+            input.form-control(name="ddate", type='date', value=order.deliveryDate)
         input.btn.btn-primary(type="submit", value="Submit")
