@@ -5,9 +5,9 @@ delete from users;
 delete from department;
 delete from brand;
 
-insert into users (userId, lastName, firstName, userEmail, userPassword)
+insert into users (userId, lastName, firstName, userName, userEmail, userPassword)
 values  ('1000', "admin", "admin", "admin", "admin@shoestring.com", "password"),
-        ('2000', "Sebastian", "Stan", "sebastians," "s.stan@yahoo.com", "sstanpass"),
+        ('2000', "Sebastian", "Stan", "sebastians", "s.stan@yahoo.com", "sstanpass"),
         ('3000', "Winston", "Devine", "winstond", "w.devine@gmail.com", "wdevinepass"),
         ('4000', "Francesca", "Wilder", "francescaw", "f.wilder@uncw.edu", "fwilderpass"),
         ('5000', "Jamie", "Lane", "jamiel", "j.lane@aol.com", "jlanepass"),
@@ -29,15 +29,16 @@ values  ("NIKE", "Nike", "999 Highpoint Dr.", "555-555-5555", "John", "Jones"),
         ("HLGR", "Tommy Hilfiger", "500 Passport Rd.", "960-327-8136", "Tommy", "Hilfiger"),
         ("SONY", "Sony", "739 Lasso Ln.", "671-118-4843", "Cooper", "Bannon"),
         ("TSBA", "Toshiba", "88 Bobblehead Dr.", "561-284-9989", "Stevia", "Cooks"),
-        ("PTGA", "Patagonia", "293 Ironsleeve Ct.", "654-946-3333", "Marcus", "Vez");
+        ("PTGA", "Patagonia", "293 Ironsleeve Ct.", "654-946-3333", "Marcus", "Vez"),
+        ("N/A", "N/A", "N/A", "N/A", "N/A", "N/A");
 
 insert into inventory
 values  ("NS-8945", "Men's Nike Shoes", 64.99, "CLO", "NIKE"),
         ("NS-8345", "Women's Nike Shoes ", 34.99, "CLO", "NIKE"),
         ("NS-7365", "Kid's Nike Shoes", 59.99, "CLO", "NIKE"),
-        ("FB-2839", "Fiction Book", 12.99, "BKS", null),
-        ("NB-2229", "Non-fiction Book", 9.99, "BKS", null),
-        ("MB-2589", "Mystery Book", 14.99, "BKS", null),
+        ("FB-2839", "Fiction Book", 12.99, "BKS", 'N/A'),
+        ("NB-2229", "Non-fiction Book", 9.99, "BKS", 'N/A'),
+        ("MB-2589", "Mystery Book", 14.99, "BKS", 'N/A'),
         ("OJ-9384", "Outdoor Jacket", 129.99, "CLO", "PTGA"),
         ("OH-9234", "Outdoor Hat", 24.99, "CLO", "PTGA"),
         ("OP-9384", "Outdoor Pants", 79.99, "CLO", "PTGA"),
@@ -58,24 +59,24 @@ values  ("NS-8945", "Men's Nike Shoes", 64.99, "CLO", "NIKE"),
         ("HB-1024", "Hilfiger Belt", 18.99, "CLO", "HLGR");
 
 insert into cart(quantity, userId, itemId)
-values  (1, '2000', "RC-2001"), 
-        (1, '6000', "HP-1138"),
-        (1, '4000', "NS-8345"),
-        (1, '2000', "SS-3993"),
-        (1, '3000', "HP-1138"),
-        (1, '3000', "SB-9088"),
-        (1, '5000', "SS-3993"),
-        (1, '6000', "HP-1138"),
-        (1, '1000', "HP-1138"),
-        (1, '1000', "NS-8345"),
-        (1, '1000', "TV-9009"),
-        (1, '2000', "FB-2839"),
-        (1, '4000', "OH-9234"),
-        (1, '7000', "FB-2839"),
-        (1, '7000', "SS-3993"),
-        (1, '5000', "HP-1138"),
-        (1, '5000', "NS-8345"),
-        (1, '6000', "OH-9234");
+values  (1, "2000", "RC-2001"), 
+        (1, "6000", "HP-1138"),
+        (1, "4000", "NS-8345"),
+        (1, "2000", "SS-3993"),
+        (1, "3000", "HP-1138"),
+        (1, "3000", "SB-9088"),
+        (1, "5000", "SS-3993"),
+        (1, "6000", "HP-1138"),
+        (1, "1000", "HP-1138"),
+        (1, "1000", "NS-8345"),
+        (1, "1000", "TV-9009"),
+        (1, "2000", "FB-2839"),
+        (1, "4000", "OH-9234"),
+        (1, "7000", "FB-2839"),
+        (1, "7000", "SS-3993"),
+        (1, "5000", "HP-1138"),
+        (1, "5000", "NS-8345"),
+        (1, "6000", "OH-9234");
 
 insert into purchased (userId, itemId, quantity, purchaseDate, deliveryDate)
 values  ('3000', "MB-2589", 4, '2015-11-08', '2015-11-11'),
