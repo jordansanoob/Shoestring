@@ -19,14 +19,14 @@ app.use(bodyParser.json())
 //Public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-var sqlInfo = mysql.createConnection({
+var db = mysql.createConnection({
     host: 'webdev.cislabs.uncw.edu',
     user: 'jha2135',
     password: 'xczcCx3bH',
     database: 'narayan3'
 });
 
-sqlInfo.connect(function (err) {
+db.connect(function (err) {
     if (err) throw err;
     else {
         console.log("connected");
@@ -38,12 +38,13 @@ app.get('/', function (req, res) {
     var inventory = [];
     var sql = `select * from inventory`;
 
-    sqlInfo.query(sql, function (err, data) {
+    db.query(sql, function (err, data) {
         if (err) {
             console.log(err)
         } else {
             data.forEach(function (row) {
                 var item = {
+                    id: row.itemId,
                     name: row.itemName,
                     brand: row.brandId,
                     price: row.price
@@ -69,8 +70,8 @@ app.post('/register', function (req, res) {
                             values(generateUID(), '${req.body.inputLastName}', 
                             '${req.body.inputFirstName}', '${req.body.inputEmail}', 
                             '${req.body.inputPassword}')`
-    sqlInfo.query(sql, (err, data) => {
-        if(err) throw err;
+    db.query(sql, (err, data) => {
+        if (err) throw err;
         res.render('registerSuccess');
     });
 });
@@ -81,6 +82,39 @@ app.get('/login', function (req, res) {
 });
 
 
+//Cart route
+app.get('/cart/:id', (req, res)=>{
+    var carts=[]
+    var sql = `select * from cart c join inventory i where c.itemId = i.itemId and c.userId = ${req.params.id}`;
+    db.query(sql, function (err, data) {
+        if (err) {
+            console.log(err)
+        } else {
+            data.forEach(function (row) {
+                var item = {
+                    name: row.itemName,
+                    qty: row.quantity,
+                    price: row.price
+                }
+                carts.push(item);
+            });
+        }
+        for (c in carts) {
+            console.log(carts[c].name);
+        }
+        res.render('cart', {
+            carts: carts
+        });
+    });
+});
+
+app.post('/cart', function (req, res) {
+    db.query(sql, (err, data) => {
+        if (err) throw err;
+        res.render('cartManipulationComplete');
+    });
+});
+
 
 //Admin page
 app.get('/admin', function (req, res) {
@@ -90,7 +124,7 @@ app.get('/admin', function (req, res) {
     var orders = [];
 
     // grab the data to populate the inventory array
-    sqlInfo.query('select * from inventory', function (err, data) {
+    db.query('select * from inventory', function (err, data) {
         if (err) throw err;
 
         // create an object for each item in inventory
@@ -105,7 +139,7 @@ app.get('/admin', function (req, res) {
         });
 
         // grab the data to populate the users array
-        sqlInfo.query('select * from users', function (err2, data2) {
+        db.query('select * from users', function (err2, data2) {
             if (err2) throw err2;
 
             //create an object for each user
@@ -120,7 +154,7 @@ app.get('/admin', function (req, res) {
             });
 
             // grab the data to populate the orders array
-            sqlInfo.query('select * from purchased', function (err3, data3) {
+            db.query('select * from purchased', function (err3, data3) {
                 if (err3) throw err3;
 
                 //create an object for each order
@@ -151,32 +185,59 @@ app.get('/inventory/add', function (req, res) {
     res.render("add-item");
 });
 
+app.post('/inventory/add', (req, res) => {
+    console.log(res.params)
+    let sql = `insert into inventory values (generateItemId(),
+        '${req.body.name}', 
+        ${req.body.price}, 
+        '${req.body.dept}',
+        '${req.body.brand}')`
+
+    db.query(sql, (err, data) => {
+        if (err) throw err
+        res.redirect('/admin');
+    });
+
+});
+
 
 //Edit item route
 app.get('/inventory/edit/:id', function (req, res) {
     var item;
     let sql = `select * from inventory where itemId = '${req.params.id}'`
-    sqlInfo.query(sql, (err, data) => {
+    db.query(sql, (err, data) => {
         if (err) throw err
         res.render("edit-item", {
             title: "Edit Item",
             item: data[0]
         });
-    })
+    });
 });
 
 //Update item route
 app.post('/inventory/edit/:id', (req, res) => {
 
-    var sql = `update inventory 
+    let sql = `update inventory 
                 set itemName = '${req.body.name}', 
                 brandId = '${req.body.brand}', 
                 departmentId = '${req.body.dept}',
                 price = ${req.body.price} where itemId = '${req.params.id}'`
 
-    sqlInfo.query(sql, (err, data) => {
+    db.query(sql, (err, data) => {
         if (err) throw err
         res.redirect('/admin');
+    })
+});
+
+//Delete item route
+app.get('/inventory/delete/:id', (req, res) => {
+
+    let sql = `delete from inventory where itemId = '${req.params.id}'`
+
+    db.query(sql, (err, data) => {
+        if (err) throw err
+        console.log("Deleted item: " + req.params.id);
+        res.redirect('/admin')
     })
 });
 
@@ -185,12 +246,28 @@ app.get('/user/add', function (req, res) {
     res.render("add-user");
 });
 
+//Add post user route
+app.post('/user/add', (req, res) => {
+    console.log(res.params)
+    let sql = `insert into users values (generateUID(),
+        '${req.body.first}', 
+        '${req.body.last}',
+        '${req.body.email}',
+        generateUID(), 
+        ${req.body.wallet})`
+
+    db.query(sql, (err, data) => {
+        if (err) throw err
+        res.redirect('/admin');
+    });
+})
+
 //Edit user route
 app.get('/user/edit/:id', (req, res) => {
 
     var user;
     let sql = `select * from users where userId = ${req.params.id}`
-    sqlInfo.query(sql, (err, data) => {
+    db.query(sql, (err, data) => {
         if (err) throw err;
         res.render("edit-user", {
             title: "Edit User",
@@ -207,22 +284,31 @@ app.post('/user/edit/:id', (req, res) => {
     lastName = '${req.body.last}', 
     wallet = ${req.body.wallet} where userId = '${req.params.id}'`
 
-    sqlInfo.query(sql, (err, data) => {
+    db.query(sql, (err, data) => {
         if (err) throw err
         res.redirect('/admin');
     });
 });
 
+//Delete User Route
+app.get('/user/delete/:id', (req, res) => {
+
+    let sql = `delete from users where userId = '${req.params.id}'`
+
+    db.query(sql, (err, data) => {
+        if (err) throw err
+        console.log("Deleted user: " + req.params.id);
+        res.redirect('/admin')
+    });
+});
 
 //Edit order route
 app.get('/order/edit/:id', function (req, res) {
     var order;
 
     let sql = `select * from purchased where purchaseId = ${req.params.id}`
-    sqlInfo.query(sql, (err, data) => {
+    db.query(sql, (err, data) => {
         if (err) throw err
-        // data[0].purchaseDate = data[0].purchaseDate.stringify().replace(/-/g, '');
-        // data[0].deliveryDate = data[0].deliveryDate.stringify().replace(/-/g, '');
         console.log(data[0])
         res.render('edit-order', {
             order: data[0]
@@ -230,6 +316,7 @@ app.get('/order/edit/:id', function (req, res) {
     });
 });
 
+//Update post order route
 app.post('/order/edit/:id', function (req, res) {
     var sql = `update purchased 
     set qty = '${req.body.qty}', 
@@ -238,12 +325,23 @@ app.post('/order/edit/:id', function (req, res) {
 
     console.log(req.body);
 
-    sqlInfo.query(sql, (err, data) => {
+    db.query(sql, (err, data) => {
         if (err) throw err
         res.redirect('/admin');
     });
 });
 
+//Delete order
+app.get('/order/delete/:id', (req, res) => {
+
+    let sql = `delete from purchased where purchaseId = '${req.params.id}'`
+
+    db.query(sql, (err, data) => {
+        if (err) throw err
+        console.log("Deleted order: " + req.params.id);
+        res.redirect('/admin')
+    });
+});
 
 //Start server
 app.listen(3000, function () {

@@ -1,0 +1,54 @@
+extends layout
+block content
+    h1 Cart
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+    script.
+        $(document).ready(function() {
+            $("[id^=minus_]").click(function() {
+                var b_id = $(this).attr("id");
+                var id = b_id.substring(6, b_id.length)
+                var qty = parseInt(document.getElementById("amount_"+id).innerHTML);
+                var b_price = document.getElementById("price_"+id).innerHTML;
+                var price = parseFloat(b_price.substring(1, b_price.length));
+                qty = qty - 1;
+                if (qty > 0) {
+                    document.getElementById("amount_"+id).textContent = qty;
+                    document.getElementById("price_"+id).textContent = "$"+((price - (price / (qty + 1))).toFixed(2));
+                }
+                else {
+                    alert("Quantity cannot be less than 1");
+                }
+            });
+            $("[id^=plus_]").click(function() {
+                var b_id = $(this).attr("id");
+                var id = b_id.substring(5, b_id.length)
+                var qty = parseInt(document.getElementById("amount_"+id).innerHTML);
+                var b_price = document.getElementById("price_"+id).innerHTML;
+                var price = parseFloat(b_price.substring(1, b_price.length));
+                qty = qty + 1;
+                document.getElementById("amount_"+id).textContent = qty;
+                document.getElementById("price_"+id).textContent = "$"+((price + (price / (qty - 1))).toFixed(2));
+            });
+            $("[id^=remove_]").click(function() {
+                $(this).parent().parent().remove();
+            });
+        });
+    .cart
+        each item, c in carts
+            .responsive
+                .gallery
+                    img(src='', alt='', width='300', height='200')
+                    .desc 
+                        h4= item.name
+                        h3(id='price_'+item.name)= "$"+item.price
+
+                        ul
+                            li 
+                                a.btn.btn-default(href='#', id='minus_'+item.name) -
+                            li
+                                label.btn.btn-blank(href="#", id='amount_'+item.name) 1
+                            li 
+                                a.btn.btn-default(href='#', id='plus_'+item.name) +
+                        h4
+                        a.btn.btn-primary(href='#', id='remove_'+item.name) Remove from cart
+                    br

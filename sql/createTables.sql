@@ -43,7 +43,6 @@ CREATE TABLE inventory
 	itemId varchar(7) NOT NULL,
 	itemName varchar(32) NOT NULL,
 	price DECIMAL(19,4) NOT NULL,
-	gender VARCHAR(1),
 	departmentId varchar(3) NOT NULL,
 	brandId varchar(4),
 	PRIMARY KEY (itemId),
@@ -59,8 +58,10 @@ CREATE TABLE cart
 	userId varchar(255) NOT NULL,
 	itemId varchar(7) NOT NULL,
 	PRIMARY KEY (entryNumber),
-	FOREIGN KEY (userId) REFERENCES users(userId),
+	FOREIGN KEY (userId) REFERENCES users(userId)
+	ON DELETE CASCADE,
 	FOREIGN KEY (itemId) REFERENCES inventory(itemId)
+	ON DELETE CASCADE
 )
 ENGINE=INNODB;
 
@@ -71,10 +72,12 @@ CREATE TABLE purchased
 	itemId varchar(7) NOT NULL,
 	quantity INT NOT NULL,
 	purchaseDate DATE NOT NULL,
-	deliveryDate DATE NOT NULL,
+	deliveryDate DATE,
 	PRIMARY KEY (purchaseId),
-	FOREIGN KEY (userId) REFERENCES users(userId),
+	FOREIGN KEY (userId) REFERENCES users(userId)
+	ON DELETE CASCADE,
 	FOREIGN KEY (itemId) REFERENCES inventory(itemId)
+	ON DELETE CASCADE
 
 )
 ENGINE=INNODB;

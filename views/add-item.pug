@@ -4,7 +4,7 @@ block content
     form(action='/inventory/add', method="POST")
         #form-group
             Label Item Name
-            input.form-control(name="id", type="text")
+            input.form-control(name="name", type="text" required)
         #form-group
             Label(for=sel) Brand
             select.form-control(name="brand", type="text" id=sel)
@@ -26,8 +26,8 @@ block content
                 option ELE
                 option ATO
                 option MUS
-                
+
         #form-group
             Label Price
-            input.form-control(name="price", type="text", placeholder="$0.00")
+            input.form-control(name="price", type="number", placeholder="$0.00" step=".01" required)
         input.btn.btn-primary(type="submit", value="Submit")

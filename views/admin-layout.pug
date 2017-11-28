@@ -3,7 +3,7 @@ html
     head
         title Shoestring | Admin
         link(rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.css')
-        link(rel='stylesheet' href='/admin.css')
+        link(rel='stylesheet' href='/css/admin.css')
 
     body
         nav.navbar.navbar-inverse.navbar-fixed-top
@@ -16,6 +16,9 @@ html
                         span.icon-bar
                     a.navbar-brand(href='/admin') Shoestring Admin
                 #navbar.navbar-collapse.collapse
+                    ul.nav.navbar-nav
+                        li.active
+                            a(href='/') Shopping
                     ul.nav.navbar-nav.navbar-right
                         li
                             a(href='#') Hello, #{admin}
@@ -46,4 +49,4 @@ html
 
         script(src='/bower_components/jquery/dist/jquery.js')
         script(src='/bower_components/bootstrap/dist/js/bootstrap.js')
-        script(src='/script.js')
+        script(src='/sjs/script.js')
