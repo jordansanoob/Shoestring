@@ -42,12 +42,14 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 60000 }
+    cookie: { maxAge: 600000 }
 }))
 
 //Home route
 app.get('/', function (req, res) {
     var inventory = [];
+    var user = req.session.user;
+    console.log(user);
     db.query('select * from inventory', function (err, data) {
         if (err) {
             console.log(err)
@@ -64,12 +66,13 @@ app.get('/', function (req, res) {
         }
         res.render('shopping', {
             name: 'Inventory',
-            inventory: inventory
+            inventory: inventory,
+            activeuser: user
         });
     });
 });
 
-app.post('/', function(req, res) {
+app.post('/', function (req, res) {
     var inventory = []
     if (req.body.filter == 'price' || req.body.filter == 'itemName' || req.body.filter == 'departmentId') {
         db.query(`select * from inventory order by ${req.body.filter}`, function (err, data) {
@@ -92,7 +95,7 @@ app.post('/', function(req, res) {
             });
         });
     }
-    else{
+    else {
         db.query(`select * from inventory where brandId = '${req.body.brandFilter}'`, function (err, data) {
             if (err) {
                 console.log(err)
@@ -152,7 +155,7 @@ app.post('/login', function (req, res) {
     var name = post.username;
     var pass = post.password;
 
-    var sql = `select userId, firstName, lastName, userEmail from users
+    var sql = `select userId, firstName, lastName, userName from users
                 where userName = '${name}' and userPassword = '${pass}'
                 `
     db.query(sql, function (err, results) {
@@ -161,9 +164,15 @@ app.post('/login', function (req, res) {
             req.session.user = results[0];
             console.log(req.session.user);
             console.log(req.session.userId);
-            res.redirect('/');
+
+            if (results[0].userName == 'admin') {
+                res.redirect('/admin');
+            } else {
+                res.redirect('/');
+            }
+
         } else {
-            res.render('signup');
+            res.render('register');
         }
     })
 
@@ -175,6 +184,7 @@ app.get('/admin', function (req, res) {
     var inventory = [];
     var users = [];
     var orders = [];
+    var user = req.session.user;
 
     // grab the data to populate the inventory array
     db.query('select * from inventory', function (err, data) {
@@ -221,12 +231,17 @@ app.get('/admin', function (req, res) {
                     }
                     orders.push(item);
                 });
-                res.render('admin-content', {
-                    admin: 'Jordan',
-                    inventory: inventory,
-                    users: users,
-                    orders: orders
-                });
+
+                if (req.session.user.userName == 'admin') {
+                    res.render('admin-content', {
+                        inventory: inventory,
+                        users: users,
+                        orders: orders,
+                        admin: user
+                    });
+                } else {
+                    res.redirect('/login');
+                }
             }); // purchased query end
         }); // users query end
     }); // inventory query end
@@ -236,12 +251,17 @@ app.get('/chart-data', function (req, res) {
     var sql = 'select * from barchart'
 
     db.query(sql, function (err, data) {
-        console.log("From barchart " + data);
+        res.send(data);
     })
 })
 //Add item route
 app.get('/inventory/add', function (req, res) {
-    res.render("add-item");
+
+    if (req.session.user.userName == 'admin') {
+        res.render("add-item", { admin: req.session.user });
+    } else {
+        res.redirect('/login');
+    }
 });
 
 app.post('/inventory/add', (req, res) => {
@@ -266,10 +286,16 @@ app.get('/inventory/edit/:id', function (req, res) {
     let sql = `select * from inventory where itemId = '${req.params.id}'`
     db.query(sql, (err, data) => {
         if (err) throw err
-        res.render("edit-item", {
-            title: "Edit Item",
-            item: data[0]
-        });
+
+        if (req.session.user.userName == 'admin') {
+            res.render("edit-item", {
+                title: "Edit Item",
+                item: data[0],
+                admin: req.session.user
+            });
+        } else {
+            res.redirect('/login');
+        }
     });
 });
 
@@ -302,7 +328,12 @@ app.get('/inventory/delete/:id', (req, res) => {
 
 //Add user route
 app.get('/user/add', function (req, res) {
-    res.render("add-user");
+
+    if (req.session.user.userName == 'admin') {
+        res.render("add-user", { admin: req.session.user });
+    } else {
+        res.redirect('/login');
+    }
 });
 
 //Add post user route
@@ -328,10 +359,16 @@ app.get('/user/edit/:id', (req, res) => {
     let sql = `select * from users where userId = ${req.params.id}`
     db.query(sql, (err, data) => {
         if (err) throw err;
-        res.render("edit-user", {
-            title: "Edit User",
-            user: data[0]
-        });
+
+        if (req.session.user.userName == 'admin') {
+            res.render("edit-user", {
+                title: "Edit User",
+                user: data[0],
+                admin: req.session.user
+            });
+        } else {
+            res.redirect('/login')
+        }
     })
 });
 
@@ -357,7 +394,7 @@ app.get('/user/delete/:id', (req, res) => {
     db.query(sql, (err, data) => {
         if (err) throw err
         console.log("Deleted user: " + req.params.id);
-        res.redirect('/admin')
+        res.redirect('/admin', { admin: req.session.user })
     });
 });
 
@@ -368,10 +405,15 @@ app.get('/order/edit/:id', function (req, res) {
     let sql = `select * from purchased where purchaseId = ${req.params.id}`
     db.query(sql, (err, data) => {
         if (err) throw err
-        console.log(data[0])
-        res.render('edit-order', {
-            order: data[0]
-        })
+
+        if (req.session.user.userName == 'admin') {
+            res.render('edit-order', {
+                order: data[0],
+                admin: req.session.user
+            })
+        } else {
+            res.redirect('/login');
+        }
     });
 });
 
@@ -399,6 +441,12 @@ app.get('/order/delete/:id', (req, res) => {
         if (err) throw err
         console.log("Deleted order: " + req.params.id);
         res.redirect('/admin')
+    });
+});
+
+app.get('/logout/:id', (req, res) => {
+    req.session.destroy(function (err) {
+        res.redirect("/login");
     });
 });
 

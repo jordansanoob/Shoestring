@@ -10,6 +10,7 @@ h1{
 }
 
 input{
+    
     margin: 0 auto;
     margin-bottom: 16px;
     display: block;
@@ -74,10 +75,16 @@ div.desc {
         width: 49.99999%;
         margin: 6px 0;
     }
+    .sign{
+        width: 70%;
+    }
 }
 
 @media only screen and (max-width: 500px){
     .responsive {
+        width: 100%;
+    }
+    .sign{
         width: 100%;
     }
 }
