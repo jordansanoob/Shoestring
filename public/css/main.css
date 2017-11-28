@@ -6,6 +6,31 @@ body{
 
 h1{
     text-align: center;
+    margin: 24px 0;
+}
+
+input{
+    
+    margin: 0 auto;
+    margin-bottom: 16px;
+    display: block;
+    text-align: center;
+}
+
+form{
+    text-align: center;
+    margin: 0 auto;
+}
+
+.sign{
+    padding: 16px;
+    width: 30%;
+    height: 100%;
+    display: block;
+    margin: 0 auto; 
+    align-items: center;
+    background-color:#008cba;
+    color: white;
 }
 
 .container{
@@ -50,14 +75,23 @@ div.desc {
         width: 49.99999%;
         margin: 6px 0;
     }
+    .sign{
+        width: 70%;
+    }
 }
 
 @media only screen and (max-width: 500px){
     .responsive {
         width: 100%;
     }
+    .sign{
+        width: 100%;
+    }
 }
 
+.wide{
+    width: 50%;
+}
 .inventory{
     display: flex;
     flex-wrap: wrap;
@@ -82,4 +116,5 @@ div.desc {
 
 footer{
     bottom: 0;
+    text-align: center;
 }

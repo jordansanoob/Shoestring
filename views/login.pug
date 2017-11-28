@@ -1,0 +1,26 @@
+extends layout
+
+block content
+	div.sign
+		h1 Sign In
+		div.form-group
+			form(action="/login", method="POST")
+				#form-group
+					Label User Name
+					input(
+						name="username"
+						type="text"
+						id="inputName"
+						class="form-control"
+						placeholder="User Name"
+					)
+				#form-group
+					Label Password
+					input(
+						name="password"
+						type="password"
+						id="inputPassword"
+						class="form-control"
+						placeholder="Password"
+					)
+				input.btn.btn-default(type="submit", value="Log in!")

@@ -5,6 +5,7 @@ html
         title Shoestring
         link(rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.css')
         link(rel='stylesheet' href='css/main.css')
+        link(rel='stylesheet' href='/font-awesome/css/font-awesome.min.css')
         
     body
         nav.navbar.navbar-inverse
@@ -18,15 +19,27 @@ html
                     a.navbar-brand(href='/') Shoestring
                 #navbar.navbar-collapse.collapse
                     ul.nav.navbar-nav
-                        li.active
-                            a(href='/') Shopping
+                        li
+                            a(href='/') Home
                     ul.nav.navbar-nav.navbar-right
-                        li
-                            a(href='login') Log in
-                        li
-                            a(href='register') Register
-                        li 
-                            a(href='admin') Admin
+
+                        if activeuser
+
+                            li 
+                                a Hello,  #{activeuser.firstName}
+                            li  
+                                a(href='cart/' + activeuser.userId)
+                                    i.fa.fa-shopping-cart.fa-lg
+                            li
+                                a(href='logout/' + activeuser.userId)
+                                    i.fa.fa-sign-out.fa-lg
+
+                        else
+                            li
+                                a(href='login') Log in
+                            li
+                                a(href='register') Register
+
         .container
             block content
             br
@@ -37,4 +50,3 @@ html
 
         script(src='/bower_components/jquery/dist/jquery.js')
         script(src='/bower_components/bootstrap/dist/js/bootstrap.js')
-        script(src='js/script.js')
