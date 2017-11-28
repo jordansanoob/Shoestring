@@ -10,6 +10,7 @@ CREATE TABLE users
 	userId varchar(255) NOT NULL,
 	lastName varchar(255) NOT NULL,
 	firstName varchar(255) NOT NULL,
+	userName varchar(255) NOT NULL,
 	userEmail varchar(320) NOT NULL,
 	userPassword varchar(64) NOT NULL,
 	wallet decimal(19,4) NOT NULL DEFAULT 50,

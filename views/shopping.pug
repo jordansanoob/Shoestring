@@ -1,12 +1,36 @@
 extends layout
 block content
     h1 Shop
-    
+
+    form.form-horizontal(
+        method='post'
+        action='/')
+        #form-group
+            center
+                select(width='60', type='text', name='filter')
+                    option(value='itemName') Item Name
+                    option(value='price') Price
+                    option(value='departmentId') Department
+                    option(value='brandId') Brand
+                select(width='60', type='text', name='brandFilter')
+                    option(value='no') 
+                    option(value='ADID') Adidas
+                    option(value='FARB') Farberware
+                    option(value='HLGR') Tommy Hilfiger
+                    option(value='NIKE') Nike
+                    option(value='PTGA') Patagonia
+                    option(value='SONY') Sony
+                    option(value='TSBA') Toshiba
+                    option(value='N/A') No brand
+                input.btn.btn-default(type='submit', value='Filter')
+
+    hr
+
     .inventory
         each item, i in inventory
             .responsive
                 .gallery
-                    img(src='img_fjords.jpg', alt='', width='300', height='200')
+                    img(src='', alt='', width='300', height='200')
                     .desc 
                         h4= item.name
                         p= item.price
