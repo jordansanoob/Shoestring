@@ -67,7 +67,52 @@ app.get('/', function (req, res) {
             inventory: inventory
         });
     });
+});
 
+app.post('/', function(req, res) {
+    var inventory = []
+    if (req.body.filter == 'price' || req.body.filter == 'itemName' || req.body.filter == 'departmentId') {
+        db.query(`select * from inventory order by ${req.body.filter}`, function (err, data) {
+            if (err) {
+                console.log(err)
+            } else {
+                data.forEach(function (row) {
+                    var item = {
+                        id: row.itemId,
+                        name: row.itemName,
+                        brand: row.brandId,
+                        price: row.price
+                    }
+                    inventory.push(item);
+                });
+            }
+            res.render('shopping', {
+                name: 'Inventory',
+                inventory: inventory
+            });
+        });
+    }
+    else{
+        db.query(`select * from inventory where brandId = '${req.body.brandFilter}'`, function (err, data) {
+            if (err) {
+                console.log(err)
+            } else {
+                data.forEach(function (row) {
+                    var item = {
+                        id: row.itemId,
+                        name: row.itemName,
+                        brand: row.brandId,
+                        price: row.price
+                    }
+                    inventory.push(item);
+                });
+            }
+            res.render('shopping', {
+                name: 'Inventory',
+                inventory: inventory
+            });
+        });
+    }
 });
 
 //Register page
