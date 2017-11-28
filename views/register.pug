@@ -11,37 +11,39 @@ block content
 			method="post"
 			action="/register"
 		)
-			input(
+			input.wide(
 				type="firstName"
 				name="inputFirstName"
 				class="form-control"
 				placeholder="First Name"
-				style="width: 200px"
+				
 			)
-			input(
+			input.wide(
 				type="lastName"
 				name="inputLastName"
 				class="form-control"
 				placeholder="Last Name"
-				style="width: 200px"
+				
 			)
-			input(
+			input.wide(
+				type="userName"
+				name="inputUserName"
+				class="form-control"
+				placeholder="User Name"
+				
+			)
+			input.wide(
 				type="email"
 				name="inputEmail"
 				class="form-control"
 				placeholder="Email address"
-				style="width: 200px"
+				
 			)
-			input(
+			input.wide(
 				type="password"
 				name="inputPassword"
 				class="form-control"
 				placeholder="Password"
-				style="width: 200px"
+				
 			)
-			input(
-				type="submit"
-			)
-
-	//div.btn-group
-		button(id="btnRegister" class="btn btn-primary" type="submit") Register
+			input.btn.btn-primary(type="submit", value="Register!")

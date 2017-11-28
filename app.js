@@ -1,7 +1,8 @@
 const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const session = require('express-session');
 
 //Init app
 const app = express();
@@ -19,19 +20,30 @@ app.use(bodyParser.json())
 //Public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-var db = mysql.createConnection({
-    host: 'webdev.cislabs.uncw.edu',
-    user: 'jha2135',
-    password: 'xczcCx3bH',
-    database: 'narayan3'
-});
+const connection = mysql.createConnection(
+    {
+        host: 'webdev.cislabs.uncw.edu',
+        user: 'jha2135',
+        password: 'xczcCx3bH',
+        database: 'narayan3'
+    }
+);
 
-db.connect(function (err) {
+connection.connect(function (err) {
     if (err) throw err;
     else {
         console.log("connected");
     }
 });
+
+global.db = connection;
+
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60000 }
+}))
 
 //Home route
 app.get('/', function (req, res) {
@@ -63,20 +75,53 @@ app.get('/register', function (req, res) {
     res.render('register');
 });
 
+//Register post route
 app.post('/register', function (req, res) {
-    var sql = `insert into users(userId, lastName, firstName, userEmail, userPassword)
-                            values(generateUID(), '${req.body.inputLastName}', 
-                            '${req.body.inputFirstName}', '${req.body.inputEmail}', 
-                            '${req.body.inputPassword}')`
+    var post = req.body;
+    var last = post.inputLastName;
+    var first = post.inputFirstName;
+    var email = post.inputFirstName;
+    var pass = post.inputPassword;
+    var user = post.inputUserName;
+    var sql = `insert into users(userId, lastName, firstName, userName, userEmail, userPassword)
+        values(generateUID(), '${last}', 
+        '${first}', '${user}', '${email}', 
+        '${pass}')`;
+
     db.query(sql, (err, data) => {
         if (err) throw err;
-        res.render('registerSuccess');
+        res.redirect('/login');
     });
 });
 
+
+
 //Login page
 app.get('/login', function (req, res) {
-    res.render('userLogin');
+    res.render('login');
+});
+
+//Login post page
+app.post('/login', function (req, res) {
+    var post = req.body;
+    var name = post.username;
+    var pass = post.password;
+
+    var sql = `select userId, firstName, lastName, userEmail from users
+                where userName = '${name}' and userPassword = '${pass}'
+                `
+    db.query(sql, function (err, results) {
+        if (results.length) {
+            req.session.userId = results[0].userId;
+            req.session.user = results[0];
+            console.log(req.session.user);
+            console.log(req.session.userId);
+            res.redirect('/');
+        } else {
+            res.render('signup');
+        }
+    })
+
 });
 
 //Admin page
@@ -142,7 +187,13 @@ app.get('/admin', function (req, res) {
     }); // inventory query end
 }); // admin get end
 
+app.get('/chart-data', function (req, res) {
+    var sql = 'select * from barchart'
 
+    db.query(sql, function (err, data) {
+        console.log("From barchart " + data);
+    })
+})
 //Add item route
 app.get('/inventory/add', function (req, res) {
     res.render("add-item");

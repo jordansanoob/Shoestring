@@ -21,10 +21,12 @@ html
                         li.active
                             a(href='/') Shopping
                     ul.nav.navbar-nav.navbar-right
-                        li
-                            a(href='login') Log in
-                        li
-                            a(href='register') Register
+                        if activeuser
+                        else
+                            li
+                                a(href='login') Log in
+                            li
+                                a(href='register') Register
                         li 
                             a(href='admin') Admin
         .container
@@ -37,4 +39,3 @@ html
 
         script(src='/bower_components/jquery/dist/jquery.js')
         script(src='/bower_components/bootstrap/dist/js/bootstrap.js')
-        script(src='js/script.js')
