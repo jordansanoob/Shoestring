@@ -9,6 +9,24 @@ h1{
     margin: 24px 0;
 }
 
+table{
+    width: 100%;
+}
+
+th{
+    padding-left:12px;
+}
+
+td{
+    width: 20%;
+    padding-left: 12px;
+}
+
+.cart-button{
+    margin: 2px;
+    padding: 4px;
+}
+
 input{
     
     margin: 0 auto;
@@ -32,6 +50,19 @@ form{
     background-color:#008cba;
     color: white;
 }
+
+.checkout{
+    float: right;
+    margin-right: 32px;
+    margin-top: 32px;
+}
+
+td input{
+    height:100%;
+    display: inline-block;
+    margin:auto 0;
+}
+
 
 .container{
     margin:auto;

@@ -7,7 +7,7 @@ block content
                 .col-xs-6
                     canvas#myChart(width='200', height='200')
                 .col-xs-6
-                    canvas#myChartbar(width='200', height='200')
+                    canvas#myChart2(width='200', height='200')
 
         h2 Inventory
         .table-responsive
@@ -28,13 +28,13 @@ block content
                         td= item.price
                         td
                             a(href="/inventory/edit/" + item.id)
-                                span.glyphicon.glyphicon-pencil
+                                i.fa.fa-pencil-square-o.fa-lg
                             a(href="/inventory/delete/" + item.id)
-                                span.glyphicon.glyphicon-trash
+                                i.fa.fa-trash.o.fa-lg
                 tr
                     td
                         a(href="/inventory/add")
-                                span.glyphicon.glyphicon-plus
+                                i.fa.fa-plus-circle.fa-lg
                     td ----
                     td ----
                     td ----
@@ -60,13 +60,13 @@ block content
                         td= user.wallet
                         td
                             a(href="/user/edit/" + user.id)
-                                span.glyphicon.glyphicon-pencil
+                                i.fa.fa-pencil-square-o.fa-lg
                             a(href="/user/delete/" + user.id)
-                                span.glyphicon.glyphicon-trash
+                                i.fa.fa-trash.o.fa-lg
                 tr
                     td
                         a(href="/user/add/")
-                                span.glyphicon.glyphicon-plus
+                                i.fa.fa-plus-circle.fa-lg
                     td ----
                     td ----
                     td ----
@@ -92,13 +92,30 @@ block content
                         td= order.ddate
                         td
                             a(href='/order/edit/' + order.pid)
-                                span.glyphicon.glyphicon-pencil
+                                i.fa.fa-pencil-square-o.fa-lg
                             a(href="/order/delete/" + order.pid)
-                                span.glyphicon.glyphicon-trash
+                                i.fa.fa-trash.o.fa-lg
                 tr
                     td ----
                     td ----
                     td ----
                     td ----
+                    td ----
+                    td ----
+
+        h2 Unsold Items
+        .table-responsive
+            table.table.table-striped
+                thead
+                    tr
+                        th Item Name
+                        th Item ID
+
+                each uns, u in unsold
+                    tr
+                        td= uns.name
+                        td= uns.id
+
+                tr
                     td ----
                     td ----
