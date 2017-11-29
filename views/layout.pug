@@ -4,8 +4,8 @@ html
     head
         title Shoestring
         link(rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.css')
-        link(rel='stylesheet' href='css/main.css')
         link(rel='stylesheet' href='/font-awesome/css/font-awesome.min.css')
+        link(rel='stylesheet' href='/css/main.css')
         
     body
         nav.navbar.navbar-inverse
@@ -24,7 +24,6 @@ html
                     ul.nav.navbar-nav.navbar-right
 
                         if activeuser
-
                             li 
                                 a Hello,  #{activeuser.firstName}
                             li  
