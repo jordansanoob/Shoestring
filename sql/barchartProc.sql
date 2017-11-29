@@ -2,7 +2,7 @@ drop procedure if exists barchartProc;
 DELIMITER //
 CREATE PROCEDURE barchartProc()
 BEGIN
-	SELECT itemname, 
+	SELECT itemName, 
 	     Sum(quantity) AS amountSold 
 	FROM   purchased, 
 	     inventory 

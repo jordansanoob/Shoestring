@@ -2,7 +2,7 @@ drop procedure if exists piechartProc;
 DELIMITER //
 CREATE PROCEDURE piechartProc()
 BEGIN
-	SELECT itemname, 
+	SELECT itemName, 
 	     ( SUM(quantity) / (SELECT SUM(quantity) 
 	                        FROM   purchased) ) AS amountSold 
 	FROM   purchased, 
