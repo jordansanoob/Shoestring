@@ -193,9 +193,9 @@ app.post('/login', function (req, res) {
 
 
 //Cart route
-app.get('/cart/:id', (req, res)=>{
-    var carts=[]
-    var sql = `select * from cart c join inventory i where c.itemId = i.itemId and c.userId = '${req.params.id}`;
+app.get('/cart/:id', (req, res) => {
+    var carts = []
+    var sql = `select * from cart c join inventory i where c.itemId = i.itemId and c.userId = '${req.params.id}'`;
     db.query(sql, function (err, data) {
         if (err) {
             console.log(err)
@@ -213,7 +213,7 @@ app.get('/cart/:id', (req, res)=>{
             console.log(carts[c].name);
         }
         res.render('cart', {
-            carts: carts, 
+            carts: carts,
             activeuser: req.session.user
         });
     });
@@ -296,7 +296,7 @@ app.get('/admin', function (req, res) {
     }); // inventory query end
 }); // admin get end
 
-//bar chart
+//chart
 app.get('/chart-data', function (req, res) {
     var sql = 'call barchartProc()'
     var sql2 = 'call piechartProc()'
