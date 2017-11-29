@@ -72,6 +72,7 @@ app.get('/', function (req, res) {
     });
 });
 
+//Shopping filter post
 app.post('/', function (req, res) {
     var inventory = []
     if (req.body.filter == 'price' || req.body.filter == 'itemName' || req.body.filter == 'departmentId') {
@@ -117,6 +118,18 @@ app.post('/', function (req, res) {
         });
     }
 });
+
+//Add to cart page
+app.get('/add-to-cart/:id', function (req, res) {
+    var userId = req.session.userId;
+    var itemId = req.params.id;
+    var sql = `insert into cart(quantity, userId, itemId) values (1,'${userId}', '${itemId}')`
+    console.log(sql);
+    db.query(sql, function (err, data) {
+        if (err) throw err
+        res.redirect('/');
+    })
+})
 
 //Register page
 app.get('/register', function (req, res) {
@@ -202,7 +215,7 @@ app.get('/admin', function (req, res) {
         });
 
         // grab the data to populate the users array
-        db.query('select * from users', function (err2, data2) {
+        db.query('select * from userAdminView', function (err2, data2) {
             if (err2) throw err2;
 
             //create an object for each user
@@ -247,13 +260,20 @@ app.get('/admin', function (req, res) {
     }); // inventory query end
 }); // admin get end
 
+//bar chart
 app.get('/chart-data', function (req, res) {
-    var sql = 'select * from barchart'
-
+    var sql = 'call barchartProc()'
+    var sql2 = 'call piechartProc()'
     db.query(sql, function (err, data) {
-        res.send(data);
+        db.query(sql2, function (err2, data2) {
+            res.send({
+                bar: data,
+                pie: data2
+            })
+        })
     })
-})
+});
+
 //Add item route
 app.get('/inventory/add', function (req, res) {
 

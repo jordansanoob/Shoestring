@@ -34,5 +34,7 @@ block content
                     .desc 
                         h4= item.name
                         p= item.price
-
-                    a.btn.btn-primary(href='#' value=item.id) Add to cart!
+                    if activeuser
+                        a.btn.btn-primary(href='/add-to-cart/' + item.id) Add to cart!
+                    else
+                        a.btn.btn-primary(href='/login' value=item.id) Add to cart!

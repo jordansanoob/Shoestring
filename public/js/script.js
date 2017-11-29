@@ -4,6 +4,8 @@ $(document).ready(function () {
         type: 'GET',
         success: function (data) {
             let myChart = document.getElementById('myChart').getContext('2d');
+            let myChart2 = document.getElementById('myChart2').getContext('2d');
+
             var itemArray = [];
             var dataArray = [];
             data.forEach(function (item) {
@@ -21,9 +23,22 @@ $(document).ready(function () {
                     }]
                 },
                 options: {
-
+                    scales: {
+                        yAxes: [{
+                            stacked: true,
+                            gridLines: {
+                                display: false
+                            }
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            }
+                        }]
+                    }
                 }
             })
+            let pieChart = new Chart(myChart, {})
         },
         failure: function (data) {
 
