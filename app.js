@@ -182,7 +182,7 @@ app.post('/login', function (req, res) {
 //Cart route
 app.get('/cart/:id', (req, res)=>{
     var carts=[]
-    var sql = `select * from cart c join inventory i where c.itemId = i.itemId and c.userId = ${req.params.id}`;
+    var sql = `select * from cart c join inventory i where c.itemId = i.itemId and c.userId = '${req.params.id}`;
     db.query(sql, function (err, data) {
         if (err) {
             console.log(err)
@@ -200,12 +200,13 @@ app.get('/cart/:id', (req, res)=>{
             console.log(carts[c].name);
         }
         res.render('cart', {
-            carts: carts
+            carts: carts, 
+            activeuser: req.session.user
         });
     });
 });
 
-app.post('/cart', function (req, res) {
+app.post('/cart/:id', function (req, res) {
     db.query(sql, (err, data) => {
         if (err) throw err;
         res.render('cartManipulationComplete');

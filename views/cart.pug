@@ -14,9 +14,9 @@ block content
                 if (qty > 0) {
                     document.getElementById("amount_"+id).textContent = qty;
                     document.getElementById("price_"+id).textContent = "$"+((price - (price / (qty + 1))).toFixed(2));
-                }
-                else {
-                    alert("Quantity cannot be less than 1");
+                    //$.post("/cart", function(data, status){
+                        //alert("posted!");
+                    //})
                 }
             });
             $("[id^=plus_]").click(function() {
@@ -32,7 +32,13 @@ block content
             $("[id^=remove_]").click(function() {
                 $(this).parent().parent().remove();
             });
+            $("#checkout").click(function() {
+                alert("You have bought ALL DIS SHIT!");
+            });
         });
+    a.btn.btn-success(href='#', id='checkout') Checkout
+    br
+    br
     .cart
         each item, c in carts
             .responsive
