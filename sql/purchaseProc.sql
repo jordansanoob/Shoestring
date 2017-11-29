@@ -15,7 +15,7 @@ labelLeave:BEGIN
 	WHILE (SELECT DISTINCT 1 FROM cart WHERE userId = id LIMIT 1) DO
 		SET idItem := (SELECT itemId FROM cart WHERE userId=id LIMIT 1);
 		SET qty := (SELECT quantity FROM cart WHERE userId=id LIMIT 1);
-		IF (qty * (SELECT price FROM inventory WHERE itemId=idItem) < (SELECT wallet FROM users WHERE userId = id)) THEN 
+		IF (qty * (SELECT price FROM inventory WHERE itemId=idItem) > (SELECT wallet FROM users WHERE userId = id)) THEN 
 			ROLLBACK;
 			SELECT "Insufficient funds" AS ERROR;
 			LEAVE labelLeave;
