@@ -26,6 +26,11 @@ a > .glyphicon {
   margin-top: 15px;
 }
 
+.chart{
+  width: 50%;
+  height: 100%;
+}
+
 .sidebar {
     display: none;
   }

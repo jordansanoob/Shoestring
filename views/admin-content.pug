@@ -3,7 +3,11 @@ block content
     h1 Overview
 
         .container
-            canvas#myChart
+            .row
+                .col-xs-6
+                    canvas#myChart(width='200', height='200')
+                .col-xs-6
+                    canvas#myChartbar(width='200', height='200')
 
         h2 Inventory
         .table-responsive

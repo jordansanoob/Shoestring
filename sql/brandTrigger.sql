@@ -1,7 +1,6 @@
-DROP TRIGGER IF EXISTS brandRemovalTrigger;
+drop trigger if exists brandRemovalTrigger;
 
 DELIMITER $$
-
 CREATE TRIGGER brandRemovalTrigger BEFORE DELETE ON brand 
 FOR EACH ROW
     BEGIN
@@ -10,5 +9,4 @@ FOR EACH ROW
         WHERE  inventory.brandId = OLD.brandId;
     END;
 $$
-
-delimiter ;
+DELIMITER ;
