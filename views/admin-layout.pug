@@ -3,8 +3,8 @@ html
     head
         title Shoestring | Admin
         link(rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.css')
-        link(rel='stylesheet' href='/css/admin.css')
         link(rel='stylesheet' href='/font-awesome/css/font-awesome.min.css')
+        link(rel='stylesheet' href='/css/admin.css')
 
     body
         nav.navbar.navbar-inverse.navbar-fixed-top
@@ -21,12 +21,13 @@ html
                         li
                             a(href='/') Home
                     ul.nav.navbar-nav.navbar-right
-                        li
-                            a(href='#') Hello, #{admin.userName}
-                        li
-                            a(href='/logout/' + admin.userId)
-                                i.fa.fa-sign-out.fa-lg
-
+                        if admin
+                            li
+                                a(href='#') Hello, #{admin.userName}
+                            li
+                                a(href='/logout/' + admin.userId)
+                                    i.fa.fa-sign-out.fa-lg
+    if admin
         .container-fluid
             .row
                 .col-sm-3.col-md-2.sidebar
@@ -44,10 +45,15 @@ html
                     block content
                     br
                     hr
-                    footer
-                        p Copyright &copy; 2017
+    else
+        .container
+            h1 YOU NEED TO LOG INTO AN ADMIN ACCOUNT!!!
+            
+            footer
+                p Copyright &copy; 2017
 
-        script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js')
-        script(src='/bower_components/jquery/dist/jquery.js')
-        script(src='/bower_components/bootstrap/dist/js/bootstrap.js')
-        script(src='/js/script.js')
+
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js')
+    script(src='/bower_components/jquery/dist/jquery.js')
+    script(src='/bower_components/bootstrap/dist/js/bootstrap.js')
+    script(src='/js/script.js')

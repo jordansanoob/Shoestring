@@ -123,7 +123,7 @@ app.post('/', function (req, res) {
 app.get('/add-to-cart/:id', function (req, res) {
     var userId = req.session.userId;
     var itemId = req.params.id;
-    var sql = `insert into cart(quantity, userId, itemId) values (1,'${userId}', '${itemId}')`
+    var sql = `call addToCart('${userId}', '${itemId}')`
     console.log(sql);
     db.query(sql, function (err, data) {
         if (err) throw err
@@ -154,8 +154,6 @@ app.post('/register', function (req, res) {
         res.redirect('/login');
     });
 });
-
-
 
 //Login page
 app.get('/login', function (req, res) {
@@ -191,41 +189,91 @@ app.post('/login', function (req, res) {
 
 });
 
-
 //Cart route
 app.get('/cart/:id', (req, res) => {
     var carts = []
-    var sql = `select * from cart c join inventory i where c.itemId = i.itemId and c.userId = '${req.params.id}'`;
+    var purchases = [];
+    var userId = req.params.id
+    var sql = `select * from cart c join inventory i where c.itemId = i.itemId and c.userId = '${userId}'`;
     db.query(sql, function (err, data) {
         if (err) {
             console.log(err)
         } else {
             data.forEach(function (row) {
                 var item = {
+                    id: row.itemId,
                     name: row.itemName,
                     qty: row.quantity,
                     price: row.price
                 }
                 carts.push(item);
             });
+            var sql2 = `call viewPurchases('${userId}')`
+            db.query(sql2, function (err2, data2) {
+                if (err2) throw err
+                data2[0].forEach(function (row) {
+                    var item = {
+                        name: row.itemName,
+                        amt: row.totalAmount,
+                        pdate: row.purchaseDate,
+                        ddate: row.deliverDate
+                    }
+                    console.log(item);
+                    purchases.push(item)
+                })
+                res.render('cart', {
+                    carts: carts,
+                    purchases: purchases,
+                    activeuser: req.session.user
+                });
+            });
         }
-        for (c in carts) {
-            console.log(carts[c].name);
-        }
-        res.render('cart', {
-            carts: carts,
-            activeuser: req.session.user
-        });
     });
 });
 
-app.post('/cart/:id', function (req, res) {
-    db.query(sql, (err, data) => {
-        if (err) throw err;
-        res.render('cartManipulationComplete');
+//cart update post
+app.post('/cart-update/:id', function (req, res) {
+    var id = req.params.id
+    console.log(req.params)
+    var qty = req.body.qty;
+    var iid = req.body.iid;
+    console.log(iid);
+    var sql = `update cart
+        set quantity = ${qty}
+        where userId = '${id}'
+        and itemId = '${iid}'`
+
+    db.query(sql, function (err, data) {
+        if (err) throw err
+        res.redirect('/cart/' + id);
     });
+})
+
+//cart item delete
+app.get('/cart-delete/:id', function (req, res) {
+    var user = req.session.user
+    var itemId = req.params.id
+
+    var sql = `delete from cart where userId = '${user.userId}' and itemId = '${itemId}'`
+
+    db.query(sql, function (err, data) {
+        if (err) throw err
+        console.log("Deleted: " + itemId);
+        res.redirect('/cart/' + user.userId);
+    })
 });
 
+//cart checkout
+app.get('/cart-checkout/:id', function (req, res) {
+
+    var userId = req.params.id
+
+    var sql = `call purchaseCart('${userId}')`;
+    db.query(sql, function (err, data) {
+        if (err) throw err
+        res.redirect('/');
+    })
+})
 
 //Admin page
 app.get('/admin', function (req, res) {
@@ -233,6 +281,7 @@ app.get('/admin', function (req, res) {
     var inventory = [];
     var users = [];
     var orders = [];
+    var unsold = [];
     var user = req.session.user;
 
     // grab the data to populate the inventory array
@@ -280,17 +329,40 @@ app.get('/admin', function (req, res) {
                     }
                     orders.push(item);
                 });
-
-                if (req.session.user.userName == 'admin') {
-                    res.render('admin-content', {
-                        inventory: inventory,
-                        users: users,
-                        orders: orders,
-                        admin: user
+                var sql4 = `call itemsNotSold()`
+                db.query(sql4, function (err4, data4) {
+                    if (err4) throw err4
+                    data4[0].forEach(function (row) {
+                        var item = {
+                            name: row.itemName,
+                            id: row.itemId
+                        }
+                        unsold.push(item);
                     });
-                } else {
-                    res.redirect('/login');
-                }
+
+                    console.log(unsold);
+                    if (req.session.user) {
+                        console.log(user);
+                        if (req.session.user.userName == 'admin') {
+                            res.render('admin-content', {
+                                inventory: inventory,
+                                users: users,
+                                orders: orders,
+                                unsold: unsold,
+                                admin: user
+                            });
+                        } else {
+                            res.render('admin-content', {
+                                inventory: inventory,
+                                users: users,
+                                orders: orders
+                            })
+                        }
+
+                    } else {
+                        res.redirect('/login');
+                    }
+                })//unsold query end
             }); // purchased query end
         }); // users query end
     }); // inventory query end
@@ -450,7 +522,7 @@ app.get('/user/delete/:id', (req, res) => {
     db.query(sql, (err, data) => {
         if (err) throw err
         console.log("Deleted user: " + req.params.id);
-        res.redirect('/admin', { admin: req.session.user })
+        res.redirect('/admin')
     });
 });
 

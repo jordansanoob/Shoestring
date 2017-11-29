@@ -1,60 +1,52 @@
 extends layout
 block content
-    h1 Cart
-    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
-    script.
-        $(document).ready(function() {
-            $("[id^=minus_]").click(function() {
-                var b_id = $(this).attr("id");
-                var id = b_id.substring(6, b_id.length)
-                var qty = parseInt(document.getElementById("amount_"+id).innerHTML);
-                var b_price = document.getElementById("price_"+id).innerHTML;
-                var price = parseFloat(b_price.substring(1, b_price.length));
-                qty = qty - 1;
-                if (qty > 0) {
-                    document.getElementById("amount_"+id).textContent = qty;
-                    document.getElementById("price_"+id).textContent = "$"+((price - (price / (qty + 1))).toFixed(2));
-                    //$.post("/cart", function(data, status){
-                        //alert("posted!");
-                    //})
-                }
-            });
-            $("[id^=plus_]").click(function() {
-                var b_id = $(this).attr("id");
-                var id = b_id.substring(5, b_id.length)
-                var qty = parseInt(document.getElementById("amount_"+id).innerHTML);
-                var b_price = document.getElementById("price_"+id).innerHTML;
-                var price = parseFloat(b_price.substring(1, b_price.length));
-                qty = qty + 1;
-                document.getElementById("amount_"+id).textContent = qty;
-                document.getElementById("price_"+id).textContent = "$"+((price + (price / (qty - 1))).toFixed(2));
-            });
-            $("[id^=remove_]").click(function() {
-                $(this).parent().parent().remove();
-            });
-            $("#checkout").click(function() {
-                alert("You have bought ALL DIS SHIT!");
-            });
-        });
-    a.btn.btn-success(href='#', id='checkout') Checkout
-    br
-    br
-    .cart
-        each item, c in carts
-            .responsive
-                .gallery
-                    img(src='', alt='', width='300', height='200')
-                    .desc 
-                        h4= item.name
-                        h3(id='price_'+item.name)= "$"+item.price
+    h1 #{activeuser.userName}'s Cart
 
-                        ul
-                            li 
-                                a.btn.btn-default(href='#', id='minus_'+item.name) -
-                            li
-                                label.btn.btn-blank(href="#", id='amount_'+item.name) 1
-                            li 
-                                a.btn.btn-default(href='#', id='plus_'+item.name) +
-                        h4
-                        a.btn.btn-primary(href='#', id='remove_'+item.name) Remove from cart
-                    br
+
+    .table-responsive
+        table.table-striped
+            thead
+                th #
+                th Name
+                th Quantity
+                th Price
+                th Actions
+
+            - total = 0;
+            each item, c in carts
+                - itemTotal = item.price * item.qty
+                tr
+                    td= c+1
+                    td= item.name
+                    td
+                        form(action='/cart-update/' + activeuser.userId method='POST')
+                            input(type='text' name='iid' value=item.id hidden)
+                            input.qty(type='number' name='qty' value=item.qty)
+                            button.btn.btn-warning.cart-button(type='submit')
+                                i.fa.fa-check
+
+                    td= itemTotal
+                    td
+                        a.btn.btn-danger.cart-button(href='/cart-delete/' + item.id)
+                            i.fa.fa-trash-o
+                    - total = total + itemTotal
+
+        a.btn.btn-success.checkout(href='/cart-checkout/' + activeuser.userId) Checkout: #{total}
+
+
+
+    h1 #{activeuser.userName}'s Previous Purchases
+    .table-responsive
+        table.table-striped
+            thead
+                th #
+                th Name
+                th Total Amount
+                th Purchased Date
+                th Delivered Date
+            each post, p in purchases
+                tr
+                    td= p+1
+                    td= post.name
+                    td= post.amt
+                    td= post.pdate
