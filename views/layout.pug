@@ -6,6 +6,7 @@ html
         link(rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.css')
         link(rel='stylesheet' href='/font-awesome/css/font-awesome.min.css')
         link(rel='stylesheet' href='/css/main.css')
+        link(rel='icon' href='img/shoestring.png')
         
     body
         nav.navbar.navbar-inverse
@@ -25,7 +26,7 @@ html
 
                         if activeuser
                             li 
-                                a Hello,  #{activeuser.firstName}
+                                a Wallet: $#{activeuser.wallet}
                             li  
                                 a(href='cart/' + activeuser.userId)
                                     i.fa.fa-shopping-cart.fa-lg

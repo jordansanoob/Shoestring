@@ -42,14 +42,13 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 600000 }
+    cookie: { maxAge: 6666666 }
 }))
 
 //Home route
 app.get('/', function (req, res) {
     var inventory = [];
     var user = req.session.user;
-    console.log(user);
     db.query('select * from inventory', function (err, data) {
         if (err) {
             console.log(err)
@@ -124,7 +123,6 @@ app.get('/add-to-cart/:id', function (req, res) {
     var userId = req.session.userId;
     var itemId = req.params.id;
     var sql = `call addToCart('${userId}', '${itemId}')`
-    console.log(sql);
     db.query(sql, function (err, data) {
         if (err) throw err
         res.redirect('/');
@@ -166,16 +164,13 @@ app.post('/login', function (req, res) {
     var name = post.username;
     var pass = post.password;
 
-    var sql = `select userId, firstName, lastName, userName from users
+    var sql = `select userId, firstName, lastName, userName, wallet from users
                 where userName = '${name}' and userPassword = '${pass}'
                 `
     db.query(sql, function (err, results) {
         if (results.length) {
             req.session.userId = results[0].userId;
             req.session.user = results[0];
-            console.log(req.session.user);
-            console.log(req.session.userId);
-
             if (results[0].userName == 'admin') {
                 res.redirect('/admin');
             } else {
@@ -218,14 +213,17 @@ app.get('/cart/:id', (req, res) => {
                         pdate: row.purchaseDate,
                         ddate: row.deliverDate
                     }
-                    console.log(item);
                     purchases.push(item)
                 })
-                res.render('cart', {
-                    carts: carts,
-                    purchases: purchases,
-                    activeuser: req.session.user
-                });
+                if (req.session.user) {
+                    res.render('cart', {
+                        carts: carts,
+                        purchases: purchases,
+                        activeuser: req.session.user
+                    });
+                } else {
+                    res.redirect('/login');
+                }
             });
         }
     });
@@ -234,10 +232,8 @@ app.get('/cart/:id', (req, res) => {
 //cart update post
 app.post('/cart-update/:id', function (req, res) {
     var id = req.params.id
-    console.log(req.params)
     var qty = req.body.qty;
     var iid = req.body.iid;
-    console.log(iid);
     var sql = `update cart
         set quantity = ${qty}
         where userId = '${id}'
@@ -271,6 +267,7 @@ app.get('/cart-checkout/:id', function (req, res) {
     var sql = `call purchaseCart('${userId}')`;
     db.query(sql, function (err, data) {
         if (err) throw err
+        console.log(data);
         res.redirect('/');
     })
 })
@@ -369,7 +366,7 @@ app.get('/admin', function (req, res) {
 }); // admin get end
 
 //chart
-app.get('/chart-data', function (req, res) {
+app.get('/chart-data', (req, res) => {
     var sql = 'call barchartProc()'
     var sql2 = 'call piechartProc()'
     db.query(sql, function (err, data) {
@@ -383,7 +380,7 @@ app.get('/chart-data', function (req, res) {
 });
 
 //Add item route
-app.get('/inventory/add', function (req, res) {
+app.get('/inventory/add', (req, res) => {
 
     if (req.session.user.userName == 'admin') {
         res.render("add-item", { admin: req.session.user });
@@ -392,6 +389,7 @@ app.get('/inventory/add', function (req, res) {
     }
 });
 
+//Add item post
 app.post('/inventory/add', (req, res) => {
     console.log(res.params)
     let sql = `insert into inventory values (generateItemId(),
@@ -407,9 +405,8 @@ app.post('/inventory/add', (req, res) => {
 
 });
 
-
 //Edit item route
-app.get('/inventory/edit/:id', function (req, res) {
+app.get('/inventory/edit/:id', (req, res) => {
     var item;
     let sql = `select * from inventory where itemId = '${req.params.id}'`
     db.query(sql, (err, data) => {
@@ -455,7 +452,7 @@ app.get('/inventory/delete/:id', (req, res) => {
 });
 
 //Add user route
-app.get('/user/add', function (req, res) {
+app.get('/user/add', (req, res) => {
 
     if (req.session.user.userName == 'admin') {
         res.render("add-user", { admin: req.session.user });
@@ -470,6 +467,7 @@ app.post('/user/add', (req, res) => {
     let sql = `insert into users values (generateUID(),
         '${req.body.first}', 
         '${req.body.last}',
+        '${req.body.uname}',
         '${req.body.email}',
         generateUID(), 
         ${req.body.wallet})`
@@ -527,7 +525,7 @@ app.get('/user/delete/:id', (req, res) => {
 });
 
 //Edit order route
-app.get('/order/edit/:id', function (req, res) {
+app.get('/order/edit/:id', (req, res) => {
     var order;
 
     let sql = `select * from purchased where purchaseId = ${req.params.id}`
@@ -546,11 +544,11 @@ app.get('/order/edit/:id', function (req, res) {
 });
 
 //Update post order route
-app.post('/order/edit/:id', function (req, res) {
+app.post('/order/edit/:id', (req, res) => {
     var sql = `update purchased 
-    set qty = '${req.body.qty}', 
+    set quantity = '${req.body.qty}', 
     purchaseDate = '${req.body.pdate}', 
-    deliveryDate = ${req.body.ddate} where purchaseId = ${req.params.id}`;
+    deliveryDate = '${req.body.ddate}' where purchaseId = '${req.params.id}'`;
 
     console.log(req.body);
 
@@ -572,6 +570,7 @@ app.get('/order/delete/:id', (req, res) => {
     });
 });
 
+//Logout Route
 app.get('/logout/:id', (req, res) => {
     req.session.destroy(function (err) {
         res.redirect("/login");

@@ -1,5 +1,6 @@
 extends admin-layout
 block content
+    a.anchor#overview
     h1 Overview
 
         .container
@@ -8,7 +9,7 @@ block content
                     canvas#myChart(width='200', height='200')
                 .col-xs-6
                     canvas#myChart2(width='200', height='200')
-
+        a.anchor#inventory
         h2 Inventory
         .table-responsive
             table.table.table-striped
@@ -40,7 +41,7 @@ block content
                     td ----
                     td ----
                     td ----
-
+        a.anchor#users
         h2 Users
         .table-responsive
             table.table.table-striped
@@ -72,7 +73,8 @@ block content
                     td ----
                     td ----
                     td ----
-        h2 Orders
+        a.anchor#orders
+        h2 Sales
         .table-responsive
             table.table.table-striped
                 thead
@@ -102,7 +104,7 @@ block content
                     td ----
                     td ----
                     td ----
-
+        a.anchor#unsold
         h2 Unsold Items
         .table-responsive
             table.table.table-striped

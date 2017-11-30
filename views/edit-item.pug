@@ -10,7 +10,7 @@ block content
             input.form-control(name="name", type="text", value=item.itemName)
         #form-group
             Label(for=sel) Brand
-            select.form-control(name="brand", type="text" id=sel)
+            select.form-control(name="brand", type="text" id=sel selected=item.brandId)
                 option ADID
                 option FARB
                 option HLGR
@@ -22,7 +22,7 @@ block content
 
         #form-group
             Label(for=sel2) Department
-            select.form-control(name="dept", type="text" id=sel2)
+            select.form-control(name="dept", type="text" id=sel2 selected=item.departmentId)
                 option CLO
                 option HME
                 option BKS

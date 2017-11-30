@@ -2,7 +2,6 @@ extends layout
 block content
     h1 #{activeuser.userName}'s Cart
 
-
     .table-responsive
         table.table-striped
             thead
@@ -32,8 +31,6 @@ block content
                     - total = total + itemTotal
 
         a.btn.btn-success.checkout(href='/cart-checkout/' + activeuser.userId) Checkout: #{total}
-
-
 
     h1 #{activeuser.userName}'s Previous Purchases
     .table-responsive

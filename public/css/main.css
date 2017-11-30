@@ -1,3 +1,7 @@
+*{
+    border-radius: 0 !important;
+    
+}
 body{
     color:black;
     margin: 0;
@@ -70,14 +74,21 @@ td input{
 }
 
 div.gallery {
+    background-color: #013f52;
+    color: white;
     text-align: center;
     margin-bottom: 10px;
     transition: all .3s;
     padding: 5px; 
 }
 
+.filter{
+    width: 20%;
+    margin-right: 20px;
+}
 div.gallery:hover {
     background-color: rgb(217, 235, 255);
+    color: black;
 }
 
 div.gallery img {
@@ -153,6 +164,10 @@ div.desc {
 
 .inventory-item:hover{
     background-color: rgb(82, 82, 82);
+}
+
+.btn{
+    margin-top: 16px;
 }
 
 footer{

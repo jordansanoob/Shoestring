@@ -7,12 +7,12 @@ block content
         action='/')
         #form-group
             center
-                select(width='60', type='text', name='filter')
+                select.filter(width='60', type='text', name='filter')
                     option(value='itemName') Item Name
                     option(value='price') Price
                     option(value='departmentId') Department
                     option(value='brandId') Brand
-                select(width='60', type='text', name='brandFilter')
+                select.filter(width='60', type='text', name='brandFilter')
                     option(value='no') 
                     option(value='ADID') Adidas
                     option(value='FARB') Farberware
@@ -30,7 +30,7 @@ block content
         each item, i in inventory
             .responsive
                 .gallery
-                    img(src='', alt='', width='300', height='200')
+                    img(src='img/placeholder.jpg', alt='', width='300', height='200')
                     .desc 
                         h4= item.name
                         p= item.price
