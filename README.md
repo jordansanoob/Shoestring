@@ -1,6 +1,4 @@
 # Shoestring
-CSC 455 Project
-
 
 10.05.2017:
   - Jordan:
